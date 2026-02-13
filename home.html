@@ -7,9 +7,8 @@
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-           background: radial-gradient(circle at top, #2d6a4f 0%, #1b4332 50%, #081c15 100%);
-color: #f4f1de;
-
+            background: linear-gradient(to bottom right, #fdf2f8, #f8bbd0);
+            color: #4a4a4a;
             overflow-x: hidden;
         }
 
@@ -25,16 +24,17 @@ color: #f4f1de;
             gap: 40px;
             padding: 15px;
             font-weight: bold;
+            z-index: 1000;
         }
 
         nav a {
             text-decoration: none;
-            color: #d4a017;
+            color: #800020;
             cursor: pointer;
         }
 
         nav a:hover {
-            color: #880e4f;
+            color: #d4a017;
         }
 
         section {
@@ -45,7 +45,8 @@ color: #f4f1de;
 
         h1 {
             font-size: 42px;
-            color: #c2185b;
+            color: #800020;
+            letter-spacing: 2px;
         }
 
         p {
@@ -89,9 +90,9 @@ color: #f4f1de;
         .heart {
             position: fixed;
             bottom: -20px;
-            font-size: 20px;
-            animation: float 6s linear infinite;
-            opacity: 0.6;
+            font-size: 18px;
+            animation: float 8s linear infinite;
+            opacity: 0.3;
         }
 
         @keyframes float {
@@ -123,7 +124,7 @@ color: #f4f1de;
 <section id="story">
     <h1>Story of Kanmani 📖</h1>
     <p>
-        Two souls. One bond...  
+        Two souls. One bond.  
         We didn’t choose each other — life gave us to each other.  
         In every chaos, you were my calm.  
         In every silence, you understood me without words.  
@@ -135,9 +136,9 @@ color: #f4f1de;
 <section id="gallery">
     <h1>Our Memories 📸</h1>
     <div class="gallery">
-        <img src="photo1.jpg">
-        <img src="photo1.jpg">
-        <img src="photo1.jpg">
+        <img src="https://via.placeholder.com/300x300" alt="memory">
+        <img src="https://via.placeholder.com/300x300" alt="memory">
+        <img src="https://via.placeholder.com/300x300" alt="memory">
     </div>
 </section>
 
@@ -159,7 +160,7 @@ function showSurprise() {
     overlay.style.left = "0";
     overlay.style.width = "100%";
     overlay.style.height = "100%";
-    overlay.style.background = "rgba(0,0,0,0.8)";
+    overlay.style.background = "rgba(0,0,0,0.7)";
     overlay.style.display = "flex";
     overlay.style.justifyContent = "center";
     overlay.style.alignItems = "center";
@@ -167,7 +168,6 @@ function showSurprise() {
     overlay.style.color = "white";
     overlay.style.fontSize = "28px";
     overlay.style.padding = "40px";
-    overlay.style.animation = "fadeIn 1s ease-in";
 
     overlay.innerHTML = `
         <div>
@@ -175,7 +175,7 @@ function showSurprise() {
             No matter where life takes us, <br>
             you will always be my home. 💖<br><br>
             <button onclick="this.parentElement.parentElement.remove()" 
-            style="margin-top:20px;padding:10px 20px;border:none;border-radius:8px;background:#ec407a;color:white;cursor:pointer;">
+            style="margin-top:20px;padding:10px 20px;border:none;border-radius:8px;background:#800020;color:white;cursor:pointer;">
             Close
             </button>
         </div>
@@ -184,30 +184,19 @@ function showSurprise() {
     document.body.appendChild(overlay);
 }
 
-
 /* Floating hearts */
 setInterval(() => {
     let heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "💖";
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    heart.style.fontSize = (Math.random() * 15 + 10) + "px";
     document.body.appendChild(heart);
 
     setTimeout(() => {
         heart.remove();
-    }, 6000);
-}, 500);
-</script>
-
-    <audio id="bgMusic" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-document.body.addEventListener("click", function() {
-    document.getElementById("bgMusic").play();
-}, { once: true });
+    }, 8000);
+}, 800);
 </script>
 
 </body>
