@@ -2,133 +2,113 @@
 <html>
 <head>
     <title>Kanmani World</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
-
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
-       body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to bottom right, #fdf2f8, #f8bbd0);
-    color: #4a4a4a;
-    overflow-x: hidden;
-}
-
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, #fdf2f8, #f8bbd0);
+            color: #4a4a4a;
+            overflow-x: hidden;
+        }
 
         /* Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
             display: flex;
             justify-content: center;
             gap: 40px;
             padding: 15px;
-            font-weight: bold;
             z-index: 1000;
         }
 
-       nav a {
-    font-family: 'Poppins', sans-serif;
-    text-decoration: none;
-    color: #800020;
-    cursor: pointer;
-    font-weight: 500;
-}
-
+        nav a {
+            text-decoration: none;
+            color: #800020;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 15px;
+            transition: 0.3s ease;
+        }
 
         nav a:hover {
             color: #d4a017;
         }
 
         section {
-            min-height: 100vh;
-            padding: 120px 20px;
+            min-height: 85vh;
+            padding: 120px 20px 80px 20px;
             text-align: center;
         }
 
         h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 44px;
-    color: #800020;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-}
-
-  
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 52px;
+            font-weight: 600;
+            color: #800020;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+        }
 
         p {
-    font-size: 18px;
-    max-width: 700px;
-    margin: auto;
-    line-height: 1.8;
-    font-weight: 400;
-}
-        #story h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 50px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: #800020;
-}
-
-#story p {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    font-size: 19px;
-    line-height: 2;
-}
-
-
+            font-size: 18px;
+            max-width: 750px;
+            margin: auto;
+            line-height: 1.9;
+            font-weight: 300;
+        }
 
         button {
-    font-family: 'Poppins', sans-serif;
-    margin-top: 30px;
-    padding: 14px 28px;
-    background: #800020;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: 0.3s ease;
-}
-
-button:hover {
-    background: #d4a017;
-    color: black;
-}
-
-
-        /* Gallery */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 20px;
+            margin-top: 30px;
+            padding: 14px 32px;
+            background: #800020;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 400;
+            transition: 0.3s ease;
         }
 
-        .gallery img {
-            width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        button:hover {
+            background: #d4a017;
+            color: black;
         }
 
-        /* Floating hearts */
+        /* Video Styling */
+        video {
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        /* Floating Hearts */
         .heart {
             position: fixed;
             bottom: -20px;
-            font-size: 18px;
+            font-size: 16px;
             animation: float 8s linear infinite;
-            opacity: 0.3;
+            opacity: 0.25;
         }
 
         @keyframes float {
             from { transform: translateY(0); }
             to { transform: translateY(-110vh); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 14px;
+            color: #800020;
+            font-weight: 400;
         }
     </style>
 </head>
@@ -137,55 +117,54 @@ button:hover {
 
 <nav>
     <a onclick="scrollToSection('home')">Home</a>
-    <a onclick="scrollToSection('story')">Story of Kanmani</a>
-    <a onclick="scrollToSection('gallery')">Memories</a>
+    <a onclick="scrollToSection('story')">Story</a>
+    <a onclick="scrollToSection('gallery')">Memory</a>
     <a onclick="scrollToSection('surprise')">Surprise</a>
 </nav>
 
 <!-- HOME -->
 <section id="home">
-    <h1>Happy Birthday Anu akka 💕</h1>
+    <h1>Welcome, Anu akka 🤍</h1>
     <p>
-    This little space was made just for you.  
-    Not for the world. Not for anyone else.  
+        This little space was made just for you.  
+        Not for the world. Not for anyone else.  
 
-    Today is your day.  
-    So take your time, scroll slowly, and read with your heart.
+        Today is your day.  
+        Take your time, scroll slowly, and read with your heart.
     </p>
 </section>
 
 <!-- STORY -->
 <section id="story">
-    <h1>Story of Kanmani 📖</h1>
+    <h1>Happy Birthday</h1>
     <p>
-    Happy Birthday, Anu akka.  <br>
+        Happy Birthday, Anu akka.  
 
-    Today is about you your strength, your dreams, your journey.  <br>
-    I truly hope this year brings you success in your career, confidence in every decision you make, <br>
-    and the kind of happiness that stays peacefully in your heart.  <br>
+        Today is about you — your strength, your dreams, your journey.  
+        I truly hope this year brings you success in your career, confidence in every decision you make,  
+        and the kind of happiness that stays peacefully in your heart.  
 
-    You work hard, you carry responsibilities quietly, <br>
-    and you love deeply without expecting anything back. <br>
-    You deserve growth, recognition, and everything beautiful that life can offer.  <br>
+        You work hard, you carry responsibilities quietly,  
+        and you love deeply without expecting anything back.  
+        You deserve growth, recognition, and everything beautiful that life can offer.  
 
-    As your little sister, I feel proud to stand beside you.  <br>
-    The confidence I have today, the love I understand today <br>
-    it grew because you were there guiding me in your own silent way.  <br>
+        As your little sister, I feel proud to stand beside you.  
+        The confidence I have today, the love I understand today —  
+        it grew because you were there guiding me in your own silent way.  
 
-    You showed me how beautiful I am when I couldn’t see it myself.  <br>
-    Because of you, I discovered how beautiful my own heart can be.  <br>
+        You showed me how beautiful I am when I couldn’t see it myself.  
+        Because of you, I discovered how beautiful my own heart can be.  
 
-    Happy Birthday my dear Kanmani.  <br>
-    I’m always yours.<br>
+        Happy Birthday, my dear Kanmani.  
+        I’m always yours.
     </p>
-
 </section>
 
 <!-- BIRTHDAY VIDEO -->
 <section id="gallery">
     <h1>Birthday Memory 🎬</h1>
 
-    <video width="70%" controls style="border-radius:20px; box-shadow:0 15px 30px rgba(0,0,0,0.2);">
+    <video width="70%" controls>
         <source src="birthdayvlog.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -195,10 +174,9 @@ button:hover {
     </p>
 </section>
 
-
 <!-- SURPRISE -->
 <section id="surprise">
-    <h1>One More Thing 💌</h1>
+    <h1>One More Thing</h1>
     <button onclick="showSurprise()">Click Me</button>
 </section>
 
@@ -214,22 +192,23 @@ function showSurprise() {
     overlay.style.left = "0";
     overlay.style.width = "100%";
     overlay.style.height = "100%";
-    overlay.style.background = "rgba(0,0,0,0.7)";
+    overlay.style.background = "rgba(0,0,0,0.75)";
     overlay.style.display = "flex";
     overlay.style.justifyContent = "center";
     overlay.style.alignItems = "center";
     overlay.style.textAlign = "center";
     overlay.style.color = "white";
-    overlay.style.fontSize = "28px";
+    overlay.style.fontFamily = "Poppins, sans-serif";
+    overlay.style.fontSize = "26px";
     overlay.style.padding = "40px";
 
     overlay.innerHTML = `
         <div>
             You are my safest place in this world. <br><br>
             No matter where life takes us, <br>
-            you will always be my home. 💖<br><br>
+            you will always be my home. 🤍<br><br>
             <button onclick="this.parentElement.parentElement.remove()" 
-            style="margin-top:20px;padding:10px 20px;border:none;border-radius:8px;background:#800020;color:white;cursor:pointer;">
+            style="margin-top:20px;padding:10px 25px;border:none;border-radius:20px;background:#800020;color:white;cursor:pointer;">
             Close
             </button>
         </div>
@@ -244,16 +223,16 @@ setInterval(() => {
     heart.className = "heart";
     heart.innerHTML = "💖";
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 15 + 10) + "px";
+    heart.style.fontSize = (Math.random() * 12 + 10) + "px";
     document.body.appendChild(heart);
 
     setTimeout(() => {
         heart.remove();
     }, 8000);
-}, 800);
+}, 900);
 </script>
 
-<footer style="text-align:center; padding:40px 20px; font-size:14px; color:#800020;">
+<footer>
     Made with love by your forever little sister 🤍
 </footer>
 
