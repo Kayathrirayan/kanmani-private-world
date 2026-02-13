@@ -150,8 +150,37 @@ function scrollToSection(id) {
 }
 
 function showSurprise() {
-    alert("You are my safest place in this world. I love you endlessly. 💖");
+    let overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.background = "rgba(0,0,0,0.8)";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.textAlign = "center";
+    overlay.style.color = "white";
+    overlay.style.fontSize = "28px";
+    overlay.style.padding = "40px";
+    overlay.style.animation = "fadeIn 1s ease-in";
+
+    overlay.innerHTML = `
+        <div>
+            You are my safest place in this world. <br><br>
+            No matter where life takes us, <br>
+            you will always be my home. 💖<br><br>
+            <button onclick="this.parentElement.parentElement.remove()" 
+            style="margin-top:20px;padding:10px 20px;border:none;border-radius:8px;background:#ec407a;color:white;cursor:pointer;">
+            Close
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
 }
+
 
 /* Floating hearts */
 setInterval(() => {
