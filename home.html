@@ -1,25 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome Home</title>
+    <title>Kanmani World</title>
+
     <style>
         body {
             margin: 0;
-            font-family: Arial;
-            background: #fff0f5;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #fff0f5, #f8bbd0);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 15px;
+            font-weight: bold;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #d81b60;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #880e4f;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 120px 20px;
             text-align: center;
-            padding-top: 100px;
         }
 
         h1 {
-            font-size: 40px;
-            color: #d81b60;
+            font-size: 42px;
+            color: #c2185b;
         }
 
         p {
             font-size: 20px;
-            width: 60%;
+            max-width: 700px;
             margin: auto;
+            line-height: 1.6;
         }
 
         button {
@@ -30,25 +61,112 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
+            font-size: 16px;
         }
 
         button:hover {
-            background: #c2185b;
+            background: #ad1457;
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Floating hearts */
+        .heart {
+            position: fixed;
+            bottom: -20px;
+            font-size: 20px;
+            animation: float 6s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-110vh); }
         }
     </style>
 </head>
+
 <body>
 
-<h1>Happy Birthday Anushree akka 💕</h1>
+<nav>
+    <a onclick="scrollToSection('home')">Home</a>
+    <a onclick="scrollToSection('story')">Story of Kanmani</a>
+    <a onclick="scrollToSection('gallery')">Memories</a>
+    <a onclick="scrollToSection('surprise')">Surprise</a>
+</nav>
 
-<p>
-This is our world.  
-A place where our memories stay safe forever.
-</p>
+<!-- HOME -->
+<section id="home">
+    <h1>Happy Birthday Anu akka 💕</h1>
+    <p>
+        This is our world.  
+        A place where our memories stay safe forever.
+    </p>
+</section>
 
-<button onclick="alert('You are my safest place in this world.')">
-Surprise 💌
-</button>
+<!-- STORY -->
+<section id="story">
+    <h1>Story of Kanmani 📖</h1>
+    <p>
+        Two souls. One bond.  
+        We didn’t choose each other — life gave us to each other.  
+        In every chaos, you were my calm.  
+        In every silence, you understood me without words.  
+        This story is still being written… and I’m grateful you are my forever chapter.
+    </p>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+    <h1>Our Memories 📸</h1>
+    <div class="gallery">
+        <img src="https://via.placeholder.com/300x300" alt="memory">
+        <img src="https://via.placeholder.com/300x300" alt="memory">
+        <img src="https://via.placeholder.com/300x300" alt="memory">
+    </div>
+</section>
+
+<!-- SURPRISE -->
+<section id="surprise">
+    <h1>One More Thing 💌</h1>
+    <button onclick="showSurprise()">Click Me</button>
+</section>
+
+<script>
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+function showSurprise() {
+    alert("You are my safest place in this world. I love you endlessly. 💖");
+}
+
+/* Floating hearts */
+setInterval(() => {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}, 500);
+</script>
 
 </body>
 </html>
