@@ -168,5 +168,15 @@ setInterval(() => {
 }, 500);
 </script>
 
+    <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+document.body.addEventListener("click", function() {
+    document.getElementById("bgMusic").play();
+}, { once: true });
+</script>
+
 </body>
 </html>
