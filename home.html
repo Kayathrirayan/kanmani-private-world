@@ -156,10 +156,8 @@
 <!-- FINAL -->
 <section id="final">
     <h1>One More Thing 🤍</h1>
-    <p>
-        You are my safest place in this world.  
-        No matter where life takes us, you will always be my home.
-    </p>
+
+    <button onclick="showSurprise()">Click Me</button>
 </section>
 
 <footer>
@@ -187,6 +185,39 @@ setInterval(() => {
     }, 8000);
 }, 900);
 </script>
+
+function showSurprise() {
+    let overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.background = "rgba(0,0,0,0.7)";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.textAlign = "center";
+    overlay.style.color = "white";
+    overlay.style.fontSize = "26px";
+    overlay.style.padding = "40px";
+    overlay.style.zIndex = "2000";
+
+    overlay.innerHTML = `
+        <div style="max-width:600px;">
+            You are my safest place in this world. <br><br>
+            No matter where life takes us, <br>
+            you will always be my home. 🤍<br><br>
+            <button onclick="this.parentElement.parentElement.remove()"
+            style="margin-top:20px;padding:10px 20px;border:none;border-radius:8px;background:#800020;color:white;cursor:pointer;">
+            Close
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+}
+
 
 </body>
 </html>
