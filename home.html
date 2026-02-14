@@ -3,7 +3,7 @@
 <head>
     <title>The Secret World of Kanmani</title>
 
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
@@ -21,19 +21,19 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.85);
             backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
             gap: 40px;
             padding: 15px;
-            font-weight: 500;
             z-index: 1000;
         }
 
         nav a {
             text-decoration: none;
             color: #800020;
+            font-weight: 500;
             cursor: pointer;
             transition: 0.3s;
         }
@@ -42,15 +42,14 @@
             color: #d4a017;
         }
 
-section {
-    min-height: 85vh;
-    padding: 100px 20px 80px 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
+        section {
+            min-height: 85vh;
+            padding: 130px 20px 90px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
         h1 {
             font-family: 'Cormorant Garamond', serif;
@@ -58,7 +57,6 @@ section {
             font-weight: 600;
             color: #800020;
             margin-bottom: 30px;
-            letter-spacing: 1px;
         }
 
         p {
@@ -73,7 +71,24 @@ section {
             width: 70%;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            margin: auto;
+            margin: 30px auto 0 auto;
+        }
+
+        button {
+            margin-top: 40px;
+            padding: 14px 35px;
+            background: #800020;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: #d4a017;
+            color: black;
         }
 
         footer {
@@ -83,12 +98,13 @@ section {
             color: #800020;
         }
 
-        /* Floating Elements */
+        /* Floating elements */
         .float-item {
             position: fixed;
             bottom: -20px;
             animation: float 8s linear infinite;
             opacity: 0.25;
+            pointer-events: none;
         }
 
         @keyframes float {
@@ -107,7 +123,6 @@ section {
     <a onclick="scrollToSection('final')">Surprise</a>
 </nav>
 
-<!-- HOME -->
 <section id="home">
     <h1>Welcome, Anu akka 🤍</h1>
     <p>
@@ -116,7 +131,6 @@ section {
     </p>
 </section>
 
-<!-- STORY -->
 <section id="story">
     <h1>Happy Birthday</h1>
     <p>
@@ -130,7 +144,7 @@ section {
         You deserve growth, recognition, and everything beautiful that life can offer.  
 
         As your little sister, I feel proud to stand beside you.  
-        The confidence I have today, the love I understand today
+        The confidence I have today, the love I understand today  
         it grew because you were there guiding me in your own silent way.  
 
         You showed me how beautiful I am when I couldn’t see it myself.  
@@ -140,7 +154,6 @@ section {
     </p>
 </section>
 
-<!-- VIDEO -->
 <section id="video">
     <h1>Birthday Memory 🎬</h1>
 
@@ -149,15 +162,11 @@ section {
         Your browser does not support the video tag.
     </video>
 
-    <p style="margin-top:25px;">
-        A small piece of today, saved forever.
-    </p>
+    <p>A small piece of today, saved forever.</p>
 </section>
 
-<!-- FINAL -->
 <section id="final">
     <h1>One More Thing 🤍</h1>
-
     <button onclick="showSurprise()">Click Me</button>
 </section>
 
@@ -169,23 +178,6 @@ section {
 function scrollToSection(id) {
     document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
 }
-
-/* Floating birthday elements */
-const elements = ["💖", "🎂", "🎉", "🎁", "✨"];
-
-setInterval(() => {
-    let floatItem = document.createElement("div");
-    floatItem.className = "float-item";
-    floatItem.innerHTML = elements[Math.floor(Math.random() * elements.length)];
-    floatItem.style.left = Math.random() * 100 + "vw";
-    floatItem.style.fontSize = (Math.random() * 15 + 12) + "px";
-    document.body.appendChild(floatItem);
-
-    setTimeout(() => {
-        floatItem.remove();
-    }, 8000);
-}, 900);
-</script>
 
 function showSurprise() {
     let overlay = document.createElement("div");
@@ -219,6 +211,22 @@ function showSurprise() {
     document.body.appendChild(overlay);
 }
 
+/* Floating birthday elements */
+const elements = ["💖", "🎂", "🎉", "🎁", "✨"];
+
+setInterval(() => {
+    let floatItem = document.createElement("div");
+    floatItem.className = "float-item";
+    floatItem.innerHTML = elements[Math.floor(Math.random() * elements.length)];
+    floatItem.style.left = Math.random() * 100 + "vw";
+    floatItem.style.fontSize = (Math.random() * 15 + 12) + "px";
+    document.body.appendChild(floatItem);
+
+    setTimeout(() => {
+        floatItem.remove();
+    }, 8000);
+}, 900);
+</script>
 
 </body>
 </html>
