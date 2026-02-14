@@ -89,13 +89,26 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
-        /* Floating Hearts */
-        .heart {
-            position: fixed;
-            bottom: -20px;
-            font-size: 16px;
-            animation: float 8s linear infinite;
-            opacity: 0.25;
+        /* Floating birthday elements */
+const elements = ["💖", "🎂", "🎉", "🎁", "✨"];
+
+setInterval(() => {
+    let floatItem = document.createElement("div");
+    floatItem.className = "heart";
+
+    // Random emoji
+    floatItem.innerHTML = elements[Math.floor(Math.random() * elements.length)];
+
+    floatItem.style.left = Math.random() * 100 + "vw";
+    floatItem.style.fontSize = (Math.random() * 15 + 12) + "px";
+
+    document.body.appendChild(floatItem);
+
+    setTimeout(() => {
+        floatItem.remove();
+    }, 8000);
+}, 900);
+ opacity: 0.25;
         }
 
         @keyframes float {
