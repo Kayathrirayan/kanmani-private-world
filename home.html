@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Secret World of Kanmani</title>
+    <title>Kanmani World</title>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
@@ -15,7 +14,6 @@
             overflow-x: hidden;
         }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -43,8 +41,7 @@
         }
 
         section {
-            min-height: 85vh;
-            padding: 120px 20px 80px 20px;
+            padding: 100px 20px 60px 20px;
             text-align: center;
         }
 
@@ -83,32 +80,17 @@
             color: black;
         }
 
-        /* Video Styling */
         video {
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
-        /* Floating birthday elements */
-const elements = ["💖", "🎂", "🎉", "🎁", "✨"];
-
-setInterval(() => {
-    let floatItem = document.createElement("div");
-    floatItem.className = "heart";
-
-    // Random emoji
-    floatItem.innerHTML = elements[Math.floor(Math.random() * elements.length)];
-
-    floatItem.style.left = Math.random() * 100 + "vw";
-    floatItem.style.fontSize = (Math.random() * 15 + 12) + "px";
-
-    document.body.appendChild(floatItem);
-
-    setTimeout(() => {
-        floatItem.remove();
-    }, 8000);
-}, 900);
- opacity: 0.25;
+        /* Floating elements */
+        .float-item {
+            position: fixed;
+            bottom: -20px;
+            animation: float 8s linear infinite;
+            opacity: 0.3;
         }
 
         @keyframes float {
@@ -116,12 +98,22 @@ setInterval(() => {
             to { transform: translateY(-110vh); }
         }
 
+        /* Gift box */
+        #giftBox {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            font-size: 40px;
+            cursor: pointer;
+            opacity: 0;
+            transition: 0.5s ease;
+        }
+
         footer {
             text-align: center;
             padding: 30px 20px;
             font-size: 14px;
             color: #800020;
-            font-weight: 400;
         }
     </style>
 </head>
@@ -135,7 +127,6 @@ setInterval(() => {
     <a onclick="scrollToSection('surprise')">Surprise</a>
 </nav>
 
-<!-- HOME -->
 <section id="home">
     <h1>Welcome, Anu akka 🤍</h1>
     <p>
@@ -147,13 +138,12 @@ setInterval(() => {
     </p>
 </section>
 
-<!-- STORY -->
 <section id="story">
     <h1>Happy Birthday</h1>
     <p>
         Happy Birthday, Anu akka.  
 
-        Today is about you your strength, your dreams, your journey.  
+        Today is about you — your strength, your dreams, your journey.  
         I truly hope this year brings you success in your career, confidence in every decision you make,  
         and the kind of happiness that stays peacefully in your heart.  
 
@@ -162,7 +152,7 @@ setInterval(() => {
         You deserve growth, recognition, and everything beautiful that life can offer.  
 
         As your little sister, I feel proud to stand beside you.  
-        The confidence I have today, the love I understand today 
+        The confidence I have today, the love I understand today —  
         it grew because you were there guiding me in your own silent way.  
 
         You showed me how beautiful I am when I couldn’t see it myself.  
@@ -173,7 +163,6 @@ setInterval(() => {
     </p>
 </section>
 
-<!-- BIRTHDAY VIDEO -->
 <section id="gallery">
     <h1>Birthday Memory 🎬</h1>
 
@@ -187,11 +176,12 @@ setInterval(() => {
     </p>
 </section>
 
-<!-- SURPRISE -->
 <section id="surprise">
     <h1>One More Thing</h1>
     <button onclick="showSurprise()">Click Me</button>
 </section>
+
+<div id="giftBox" onclick="openGift()">🎁</div>
 
 <script>
 function scrollToSection(id) {
@@ -211,14 +201,13 @@ function showSurprise() {
     overlay.style.alignItems = "center";
     overlay.style.textAlign = "center";
     overlay.style.color = "white";
-    overlay.style.fontFamily = "Poppins, sans-serif";
     overlay.style.fontSize = "26px";
     overlay.style.padding = "40px";
 
     overlay.innerHTML = `
         <div>
             You are my safest place in this world. <br><br>
-            No matter where life takes us, <br>
+            No matter where life takes us,  
             you will always be my home. 🤍<br><br>
             <button onclick="this.parentElement.parentElement.remove()" 
             style="margin-top:20px;padding:10px 25px;border:none;border-radius:20px;background:#800020;color:white;cursor:pointer;">
@@ -230,19 +219,33 @@ function showSurprise() {
     document.body.appendChild(overlay);
 }
 
-/* Floating hearts */
+function openGift() {
+    alert("Surprise! 🎉 Wishing you endless happiness and success this year!");
+}
+
+/* Floating birthday elements */
+const elements = ["💖", "🎂", "🎉", "🎁", "✨"];
+
 setInterval(() => {
-    let heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 12 + 10) + "px";
-    document.body.appendChild(heart);
+    let floatItem = document.createElement("div");
+    floatItem.className = "float-item";
+    floatItem.innerHTML = elements[Math.floor(Math.random() * elements.length)];
+    floatItem.style.left = Math.random() * 100 + "vw";
+    floatItem.style.fontSize = (Math.random() * 15 + 12) + "px";
+    document.body.appendChild(floatItem);
 
     setTimeout(() => {
-        heart.remove();
+        floatItem.remove();
     }, 8000);
 }, 900);
+
+/* Show gift box when near bottom */
+window.addEventListener("scroll", () => {
+    const gift = document.getElementById("giftBox");
+    if (window.scrollY + window.innerHeight > document.body.scrollHeight - 200) {
+        gift.style.opacity = 1;
+    }
+});
 </script>
 
 <footer>
