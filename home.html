@@ -84,15 +84,19 @@
         /* BUTTON */
         button {
             margin-top: 40px;
-            padding: 14px 40px;
+            padding: 14px 38px;
             background: #800020;
             color: white;
             border: none;
             border-radius: 30px;
             font-size: 16px;
             cursor: pointer;
-            transition: 0.3s ease;
+            transition: all 0.3s ease;
+
+            display: inline-block;   /* prevents stretching */
+            width: auto;             /* prevents full width */
         }
+
 
         button:hover {
             background: #d4a017;
