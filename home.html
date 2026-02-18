@@ -3,7 +3,7 @@
 <head>
     <title>The Secret World of Kanmani</title>
 
-    <!-- Fonts -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
@@ -12,11 +12,11 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(to bottom right, #fdf2f8, #f8bbd0);
             color: #4a4a4a;
-            overflow-x: hidden;
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
-        /* Navigation */
+        /* NAVIGATION */
         nav {
             position: fixed;
             top: 0;
@@ -42,9 +42,10 @@
             color: #d4a017;
         }
 
+        /* SECTIONS */
         section {
-            min-height: 85vh;
-            padding: 130px 20px 90px 20px;
+            min-height: 100vh;
+            padding: 140px 20px 100px 20px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -54,40 +55,44 @@
         h1 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 52px;
-            font-weight: 600;
             color: #800020;
             margin-bottom: 30px;
         }
 
         p {
-            font-size: 18px;
             max-width: 750px;
             margin: auto;
             line-height: 1.9;
+            font-size: 18px;
             font-weight: 300;
         }
 
-        video {
-            width: 70%;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            margin: 30px auto 0 auto;
+        /* VIDEO SECTION */
+        .video-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
         }
 
-button {
-    margin-top: 40px;
-    padding: 14px 40px;
-    background: #800020;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    width: fit-content;
-    align-self: center;
-}
+        .video-wrapper video {
+            width: 360px;      /* Perfect vertical look */
+            max-width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
 
+        /* BUTTON */
+        button {
+            margin-top: 40px;
+            padding: 14px 40px;
+            background: #800020;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
 
         button:hover {
             background: #d4a017;
@@ -101,7 +106,7 @@ button {
             color: #800020;
         }
 
-        /* Floating elements */
+        /* FLOATING ELEMENTS */
         .float-item {
             position: fixed;
             bottom: -20px;
@@ -114,11 +119,13 @@ button {
             from { transform: translateY(0); }
             to { transform: translateY(-110vh); }
         }
+
     </style>
 </head>
 
 <body>
 
+<!-- NAVIGATION -->
 <nav>
     <a onclick="scrollToSection('home')">Home</a>
     <a onclick="scrollToSection('story')">Story</a>
@@ -126,6 +133,7 @@ button {
     <a onclick="scrollToSection('final')">Surprise</a>
 </nav>
 
+<!-- HOME -->
 <section id="home">
     <h1>Welcome, Anu akka 🤍</h1>
     <p>
@@ -134,6 +142,7 @@ button {
     </p>
 </section>
 
+<!-- STORY -->
 <section id="story">
     <h1>Happy Birthday</h1>
     <p>
@@ -157,24 +166,22 @@ button {
     </p>
 </section>
 
+<!-- VIDEO -->
 <section id="video">
     <h1>Birthday Memory 🎬</h1>
 
-    <div style="display:flex; justify-content:center; margin-top:40px;">
-    <video controls style="
-        width:350px;
-        max-width:90%;
-        border-radius:20px;
-        box-shadow:0 15px 30px rgba(0,0,0,0.2);
-    ">
-        <source src="birthdayvideo(1).mp4" type="video/mp4">
-    </video>
-</div>
+    <div class="video-wrapper">
+        <video controls>
+            <source src="birthdayvideo(1).mp4" type="video/mp4">
+        </video>
+    </div>
 
-
-    <p>A small piece of today, saved forever.</p>
+    <p style="margin-top:30px;">
+        A small piece of today, saved forever.
+    </p>
 </section>
 
+<!-- FINAL -->
 <section id="final">
     <h1>One More Thing 🤍</h1>
     <button onclick="showSurprise()">Click Me</button>
@@ -185,6 +192,7 @@ button {
 </footer>
 
 <script>
+
 function scrollToSection(id) {
     document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
 }
@@ -212,7 +220,7 @@ function showSurprise() {
             No matter where life takes us, <br>
             you will always be my home. 🤍<br><br>
             <button onclick="this.parentElement.parentElement.remove()"
-            style="margin-top:20px;padding:10px 20px;border:none;border-radius:8px;background:#800020;color:white;cursor:pointer;">
+            style="margin-top:20px;padding:10px 25px;border:none;border-radius:20px;background:#800020;color:white;cursor:pointer;">
             Close
             </button>
         </div>
@@ -236,6 +244,7 @@ setInterval(() => {
         floatItem.remove();
     }, 8000);
 }, 900);
+
 </script>
 
 </body>
