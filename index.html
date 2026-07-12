@@ -1,29 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Your Eyes Only</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom right, #fdf2f8, #f8bbd0);
+            background: linear-gradient(to bottom right, #fdf2f8, #f8bbd0, #fce4ec);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .float-item {
+            position: fixed;
+            bottom: -20px;
+            animation: float 9s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-110vh); }
         }
 
         .box {
-            background: white;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
             padding: 50px;
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             max-width: 400px;
             width: 90%;
+            position: relative;
+            z-index: 2;
+            animation: riseIn 0.8s ease;
+        }
+
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
@@ -78,7 +103,7 @@
         Only someone special would know how to enter.
     </p>
 
-    <input type="password" id="password" placeholder="Enter the secret word">
+    <input type="password" id="password" placeholder="Enter the secret word" onkeydown="if(event.key==='Enter')checkPassword()">
     <br>
     <button onclick="checkPassword()">Unlock</button>
     <div id="error" class="error"></div>
@@ -93,6 +118,17 @@
             document.getElementById("error").innerText = "Hmm… that’s not it.";
         }
     }
+
+    const floatEmojis = ["💖", "✨", "🎀", "🤍"];
+    setInterval(() => {
+        let item = document.createElement("div");
+        item.className = "float-item";
+        item.innerHTML = floatEmojis[Math.floor(Math.random() * floatEmojis.length)];
+        item.style.left = Math.random() * 100 + "vw";
+        item.style.fontSize = (Math.random() * 14 + 12) + "px";
+        document.body.appendChild(item);
+        setTimeout(() => item.remove(), 9000);
+    }, 1000);
 </script>
 
 </body>
