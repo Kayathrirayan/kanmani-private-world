@@ -770,17 +770,40 @@ const storyObserver = new IntersectionObserver((entries) => {
 storyObserver.observe(document.getElementById('story'));
 
 /* ---------- GALLERY WITH PLACEHOLDER FALLBACK ---------- */
-const galleryCaptions = [
-    "Us, always", "A day to remember", "Little moments", "Just being sisters", "Somewhere, sometime", "This one’s my favorite"
+const galleryPhotos = [
+    { file: "1.jpg",  caption: "Our First Selfie Together 🤳💖" },
+    { file: "2.png",  caption: "The Last Moment With You Before You Left for Your Internship in Penang 🥹✈️" },
+    { file: "3.jpg",  caption: "Outing With You and Kavisha Akka 💕" },
+    { file: "4.jpg",  caption: "Secret Santa 🎅🎁" },
+    { file: "5.jpg",  caption: "When 4 Hours Became 48 Hours 😂🕒" },
+    { file: "6.jpg",  caption: "Fuyoo… En Akka Ivlo Azhaga? 😍" },
+    { file: "7.jpg",  caption: "Pantai Remis Days 🏖️" },
+    { file: "8.jpg",  caption: "Your Baby Photo, Akka 👶🤍" },
+    { file: "9.jpg",  caption: "Family Pic Is a Must 👨‍👩‍👧‍👦💛" },
+    { file: "10.jpg", caption: "Lunch With Your Family 🍽️💕" },
+    { file: "11.jpg", caption: "Cute Moments 🥰" },
+    { file: "12.jpg", caption: "Naantha Intha Photo Eduthe 📸😄" },
+    { file: "13.jpg", caption: "En Kanne Paturum Polaye 👀💫" },
+    { file: "14.jpg", caption: "Vetti Selfie 🤳😆" },
+    { file: "15.jpg", caption: "Our First Trip to Sekinchan 🌊🚗" },
+    { file: "16.jpg", caption: "Sekinchan Vlog 🎥☀️" },
+    { file: "17.jpg", caption: "My First Visit to Church — You Brought Me Because I Asked 🙏🤍" },
+    { file: "18.jpg", caption: "Your Graduation, My Favourite Photo 🎓📸" },
+    { file: "19.jpg", caption: "The Day I Said I Miss You and You Came to Meet Me 🥺💕" },
+    { file: "20.jpg", caption: "The First Family Function You All Came To 🎉👨‍👩‍👧‍👦" },
+    { file: "21.jpg", caption: "Secret Santa, Take Two 🎅💝" },
+    { file: "22.jpg", caption: "The End of the Semester — You Came to Meet All of Us 🎓💕" },
+    { file: "23.jpg", caption: "The Time You Came to Meet Us During Your Internship 🤍" },
+    { file: "24.jpg", caption: "The Time You Came to Cyberjaya to Meet All of Us 🏙️💛" },
+    { file: "25.jpg", caption: "Our First Outing 🚶‍♀️💕" }
 ];
 const galleryGrid = document.getElementById('galleryGrid');
-galleryCaptions.forEach((caption, i) => {
-    const n = i + 1;
+galleryPhotos.forEach(({ file, caption }) => {
     const div = document.createElement('div');
     div.className = 'polaroid';
     div.innerHTML = `
-        <img src="photos/${n}.jpg" alt="${caption}" onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('ph-fallback');">
-        <div class="ph-placeholder"><span class="icon">📷</span>Add photos/${n}.jpg</div>
+        <img src="photos/${file}" alt="${caption}" onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('ph-fallback');">
+        <div class="ph-placeholder"><span class="icon">📷</span>Add photos/${file}</div>
         <p class="caption">${caption}</p>
     `;
     galleryGrid.appendChild(div);
