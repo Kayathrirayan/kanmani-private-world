@@ -260,7 +260,7 @@
         line-height: 1.6;
     }
 
-    /* GALLERY / POLAROID FLIP CARDS */
+    /* GALLERY / POLAROID WITH TAPED REVEAL */
     .gallery {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -270,56 +270,39 @@
         margin-top: 20px;
     }
 
-    .gallery-flip {
-        aspect-ratio: 3 / 4;
-        perspective: 1200px;
-        cursor: pointer;
-        transform: rotate(-2deg);
-        transition: transform 0.3s ease;
-    }
-
-    .gallery-flip:nth-child(even) { transform: rotate(2deg); }
-    .gallery-flip:hover { transform: rotate(0deg) scale(1.04); }
-
-    .gallery-flip-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transition: transform 0.7s;
-        transform-style: preserve-3d;
-    }
-
-    .gallery-flip.flipped .gallery-flip-inner {
-        transform: rotateY(180deg);
-    }
-
-    .gallery-flip-front, .gallery-flip-back {
-        position: absolute;
-        inset: 0;
-        backface-visibility: hidden;
+    .polaroid {
+        background: #fff;
+        padding: 14px 14px 40px 14px;
         border-radius: 6px;
         box-shadow: 0 15px 30px var(--shadow);
+        transform: rotate(-2deg);
+        transition: transform 0.3s ease;
+        position: relative;
+        cursor: pointer;
     }
 
-    .gallery-flip-front {
-        background: #fff;
-        padding: 14px 14px 14px 14px;
-        display: flex;
-        flex-direction: column;
+    .polaroid:nth-child(even) { transform: rotate(2deg); }
+    .polaroid:hover { transform: rotate(0deg) scale(1.04); }
+
+    .photo-frame {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 3px;
+        overflow: hidden;
     }
 
-    .gallery-flip-front img {
+    .photo-frame img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 3px;
         display: block;
     }
 
     .ph-placeholder {
         display: none;
-        width: 100%;
-        height: 100%;
+        position: absolute;
+        inset: 0;
         border-radius: 3px;
         background: linear-gradient(135deg, var(--bg2), var(--bg3));
         color: var(--primary);
@@ -333,23 +316,56 @@
 
     .ph-placeholder .icon { font-size: 30px; }
 
-    .gallery-flip.ph-fallback .ph-placeholder { display: flex; }
+    .polaroid.ph-fallback .ph-placeholder { display: flex; }
 
-    .gallery-flip-back {
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        transform: rotateY(180deg);
+    /* Taped cover — hides the photo until tapped */
+    .tape-cover {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background: linear-gradient(135deg, var(--bg2), var(--bg3));
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 22px;
+        gap: 8px;
+        transition: transform 0.6s ease, opacity 0.5s ease;
+    }
+
+    .polaroid.revealed .tape-cover {
+        transform: translateY(-115%) rotate(-5deg);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .tape-cover .reveal-icon { font-size: 26px; }
+
+    .tape-cover .reveal-text {
+        color: var(--primary);
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-size: 13px;
+        padding: 0 14px;
         text-align: center;
     }
 
-    .gallery-flip-back p {
-        color: #fff;
-        font-size: 15px;
-        line-height: 1.6;
-        margin: 0;
+    .tape {
+        position: absolute;
+        width: 64px;
+        height: 22px;
+        background: rgba(255,255,255,0.6);
+        border: 1px solid rgba(0,0,0,0.05);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+    }
+
+    .tape-left { top: -8px; left: 6px; transform: rotate(-8deg); }
+    .tape-right { top: -8px; right: 6px; transform: rotate(8deg); }
+
+    .caption {
+        color: #333;
+        font-size: 14px;
+        text-align: center;
+        margin-top: 10px;
         font-family: 'Cormorant Garamond', serif;
         font-style: italic;
     }
@@ -685,7 +701,7 @@
 <section id="gallery">
     <h1>Little Pieces of Us 📷</h1>
     <h2 class="section-sub">a few frames from us</h2>
-    <p class="gallery-hint">tap a photo to read the moment · double-tap to view it full size</p>
+    <p class="gallery-hint">read the moment, then tap to reveal the photo · double-tap to view it full size</p>
     <div class="gallery" id="galleryGrid"></div>
 </section>
 
@@ -903,15 +919,19 @@ const galleryGrid = document.getElementById('galleryGrid');
 galleryPhotos.forEach(({ file, caption }) => {
     const src = `photos/${file}`;
     const card = document.createElement('div');
-    card.className = 'gallery-flip';
+    card.className = 'polaroid';
     card.innerHTML = `
-        <div class="gallery-flip-inner">
-            <div class="gallery-flip-front">
-                <img src="${src}" alt="${caption}" onerror="this.onerror=null;this.style.display='none';this.closest('.gallery-flip').classList.add('ph-fallback');">
-                <div class="ph-placeholder"><span class="icon">📷</span>Add photos/${file}</div>
+        <div class="photo-frame">
+            <img src="${src}" alt="${caption}" onerror="this.onerror=null;this.closest('.polaroid').classList.add('ph-fallback');">
+            <div class="ph-placeholder"><span class="icon">📷</span>Add photos/${file}</div>
+            <div class="tape-cover">
+                <span class="tape tape-left"></span>
+                <span class="tape tape-right"></span>
+                <span class="reveal-icon">🤍</span>
+                <span class="reveal-text">tap to reveal</span>
             </div>
-            <div class="gallery-flip-back"><p>${caption}</p></div>
         </div>
+        <p class="caption">${caption}</p>
     `;
     galleryGrid.appendChild(card);
 
@@ -923,7 +943,7 @@ galleryPhotos.forEach(({ file, caption }) => {
             return;
         }
         clickTimer = setTimeout(() => {
-            card.classList.toggle('flipped');
+            card.classList.toggle('revealed');
             clickTimer = null;
         }, 250);
     });
