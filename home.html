@@ -260,7 +260,7 @@
         line-height: 1.6;
     }
 
-    /* GALLERY / POLAROIDS */
+    /* GALLERY / POLAROID FLIP CARDS */
     .gallery {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -270,22 +270,47 @@
         margin-top: 20px;
     }
 
-    .polaroid {
-        background: #fff;
-        padding: 14px 14px 40px 14px;
-        border-radius: 6px;
-        box-shadow: 0 15px 30px var(--shadow);
+    .gallery-flip {
+        aspect-ratio: 3 / 4;
+        perspective: 1200px;
+        cursor: pointer;
         transform: rotate(-2deg);
         transition: transform 0.3s ease;
-        position: relative;
     }
 
-    .polaroid:nth-child(even) { transform: rotate(2deg); }
-    .polaroid:hover { transform: rotate(0deg) scale(1.04); }
+    .gallery-flip:nth-child(even) { transform: rotate(2deg); }
+    .gallery-flip:hover { transform: rotate(0deg) scale(1.04); }
 
-    .polaroid img {
+    .gallery-flip-inner {
+        position: relative;
         width: 100%;
-        aspect-ratio: 1 / 1;
+        height: 100%;
+        transition: transform 0.7s;
+        transform-style: preserve-3d;
+    }
+
+    .gallery-flip.flipped .gallery-flip-inner {
+        transform: rotateY(180deg);
+    }
+
+    .gallery-flip-front, .gallery-flip-back {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        border-radius: 6px;
+        box-shadow: 0 15px 30px var(--shadow);
+    }
+
+    .gallery-flip-front {
+        background: #fff;
+        padding: 14px 14px 14px 14px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .gallery-flip-front img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         border-radius: 3px;
         display: block;
@@ -294,7 +319,7 @@
     .ph-placeholder {
         display: none;
         width: 100%;
-        aspect-ratio: 1 / 1;
+        height: 100%;
         border-radius: 3px;
         background: linear-gradient(135deg, var(--bg2), var(--bg3));
         color: var(--primary);
@@ -308,15 +333,82 @@
 
     .ph-placeholder .icon { font-size: 30px; }
 
-    .polaroid.ph-fallback .ph-placeholder { display: flex; }
+    .gallery-flip.ph-fallback .ph-placeholder { display: flex; }
 
-    .caption {
-        color: #333;
-        font-size: 14px;
+    .gallery-flip-back {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        transform: rotateY(180deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 22px;
         text-align: center;
-        margin-top: 10px;
+    }
+
+    .gallery-flip-back p {
+        color: #fff;
+        font-size: 15px;
+        line-height: 1.6;
+        margin: 0;
         font-family: 'Cormorant Garamond', serif;
         font-style: italic;
+    }
+
+    .gallery-hint {
+        margin-top: -10px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        opacity: 0.7;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.88);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 4000;
+        padding: 30px;
+        cursor: zoom-out;
+    }
+
+    .lightbox.active { display: flex; }
+
+    .lightbox img {
+        max-width: 95vw;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        cursor: default;
+    }
+
+    .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        color: #fff;
+        font-size: 32px;
+        cursor: pointer;
+        line-height: 1;
+        opacity: 0.8;
+    }
+
+    .lightbox-close:hover { opacity: 1; }
+
+    .lightbox-caption {
+        position: absolute;
+        bottom: 25px;
+        left: 20px;
+        right: 20px;
+        text-align: center;
+        color: #fff;
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-size: 16px;
+        opacity: 0.9;
     }
 
     /* VIDEO SECTION */
@@ -593,8 +685,16 @@
 <section id="gallery">
     <h1>Little Pieces of Us 📷</h1>
     <h2 class="section-sub">a few frames from us</h2>
+    <p class="gallery-hint">tap a photo to read the moment · double-tap to view it full size</p>
     <div class="gallery" id="galleryGrid"></div>
 </section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
 
 <!-- VIDEO -->
 <section id="video">
@@ -795,18 +895,57 @@ const galleryPhotos = [
     { file: "22.jpg", caption: "The End of the Semester — You Came to Meet All of Us 🎓💕" },
     { file: "23.jpg", caption: "The Time You Came to Meet Us During Your Internship 🤍" },
     { file: "24.jpg", caption: "The Time You Came to Cyberjaya to Meet All of Us 🏙️💛" },
-    { file: "25.jpg", caption: "Our First Outing 🚶‍♀️💕" }
+    { file: "25.jpg", caption: "Our First Outing 🚶‍♀️💕" },
+    { file: "26.jpg", caption: "A Short Trip Around Cyber Before Sekinchan 🚗✨" },
+    { file: "27.jpg", caption: "The Happiest Day for Both of Us 🎓💛" }
 ];
 const galleryGrid = document.getElementById('galleryGrid');
 galleryPhotos.forEach(({ file, caption }) => {
-    const div = document.createElement('div');
-    div.className = 'polaroid';
-    div.innerHTML = `
-        <img src="photos/${file}" alt="${caption}" onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('ph-fallback');">
-        <div class="ph-placeholder"><span class="icon">📷</span>Add photos/${file}</div>
-        <p class="caption">${caption}</p>
+    const src = `photos/${file}`;
+    const card = document.createElement('div');
+    card.className = 'gallery-flip';
+    card.innerHTML = `
+        <div class="gallery-flip-inner">
+            <div class="gallery-flip-front">
+                <img src="${src}" alt="${caption}" onerror="this.onerror=null;this.style.display='none';this.closest('.gallery-flip').classList.add('ph-fallback');">
+                <div class="ph-placeholder"><span class="icon">📷</span>Add photos/${file}</div>
+            </div>
+            <div class="gallery-flip-back"><p>${caption}</p></div>
+        </div>
     `;
-    galleryGrid.appendChild(div);
+    galleryGrid.appendChild(card);
+
+    let clickTimer = null;
+    card.addEventListener('click', () => {
+        if (clickTimer) {
+            clearTimeout(clickTimer);
+            clickTimer = null;
+            return;
+        }
+        clickTimer = setTimeout(() => {
+            card.classList.toggle('flipped');
+            clickTimer = null;
+        }, 250);
+    });
+    card.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        if (card.classList.contains('ph-fallback')) return;
+        openLightbox(src, caption);
+    });
+});
+
+/* ---------- LIGHTBOX ---------- */
+function openLightbox(src, caption) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxCaption').textContent = caption;
+    document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox(e) {
+    if (e && e.target.id === 'lightboxImg') return;
+    document.getElementById('lightbox').classList.remove('active');
+}
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('active');
 });
 
 /* ---------- COUNTDOWN TO FEB 20 ---------- */
