@@ -627,6 +627,68 @@
         z-index: 3000;
     }
 
+    /* SCROLL PROGRESS BAR */
+    #scrollProgress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        width: 0%;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        z-index: 1002;
+        transition: width 0.1s linear;
+    }
+
+    /* PARALLAX BACKGROUND BLOBS */
+    .parallax-blob {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(70px);
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.55;
+        transition: opacity 0.6s ease;
+        will-change: transform;
+    }
+
+    :root[data-theme="night"] .parallax-blob { opacity: 0.28; }
+
+    .blob-1 { width: 380px; height: 380px; top: -120px; left: -100px; background: radial-gradient(circle, var(--bg2), transparent 70%); }
+    .blob-2 { width: 480px; height: 480px; top: 45vh; right: -160px; background: radial-gradient(circle, var(--accent), transparent 70%); }
+    .blob-3 { width: 340px; height: 340px; top: 100vh; left: -90px; background: radial-gradient(circle, var(--primary), transparent 70%); }
+
+    /* SCROLL REVEAL */
+    .reveal {
+        opacity: 0;
+        transform: translateY(35px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.in-view {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* HERO SCROLL HINT */
+    #home { position: relative; }
+
+    .scroll-hint {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 26px;
+        color: var(--primary);
+        opacity: 0.6;
+        animation: bounce-hint 1.8s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    @keyframes bounce-hint {
+        0%, 100% { transform: translate(-50%, 0); opacity: 0.5; }
+        50% { transform: translate(-50%, 10px); opacity: 1; }
+    }
+
     @media (max-width: 600px) {
         h1 { font-size: 38px; }
         nav { padding: 10px 12px; }
@@ -635,11 +697,23 @@
         #themeToggle span.label { display: none; }
         #themeToggle { padding: 8px 10px; }
         section { padding-top: 110px; }
+        .parallax-blob { opacity: 0.35; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1; transform: none; transition: none; }
+        .scroll-hint { animation: none; }
+        .parallax-blob { transition: none; }
     }
 </style>
 </head>
 
 <body>
+
+<div id="scrollProgress"></div>
+<div class="parallax-blob blob-1"></div>
+<div class="parallax-blob blob-2"></div>
+<div class="parallax-blob blob-3"></div>
 
 <audio id="bgMusic" loop preload="none">
     <source src="assets/music.mp3" type="audio/mpeg">
@@ -668,6 +742,7 @@
         This little space was made just for you. Not for the world. Not for anyone else.
         Today is your day. Take your time, scroll slowly, and read with your heart.
     </p>
+    <div class="scroll-hint">↓</div>
 </section>
 
 <!-- STORY (typewriter letter) -->
@@ -851,6 +926,34 @@
 function scrollToSection(id) {
     document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
 }
+
+/* ---------- SCROLL PROGRESS + PARALLAX ---------- */
+const scrollProgressBar = document.getElementById('scrollProgress');
+const parallaxBlobs = document.querySelectorAll('.parallax-blob');
+const blobSpeeds = [0.12, -0.08, 0.18];
+let scrollTicking = false;
+
+function handleScrollEffects() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    scrollProgressBar.style.width = pct + '%';
+
+    parallaxBlobs.forEach((blob, i) => {
+        blob.style.transform = `translateY(${scrollTop * blobSpeeds[i % blobSpeeds.length]}px)`;
+    });
+
+    scrollTicking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!scrollTicking) {
+        requestAnimationFrame(handleScrollEffects);
+        scrollTicking = true;
+    }
+}, { passive: true });
+
+handleScrollEffects();
 
 /* ---------- THEME TOGGLE ---------- */
 const themeToggleBtn = document.getElementById('themeToggle');
@@ -1255,6 +1358,40 @@ fetch("https://api.counterapi.dev/v1/kanmani-private-world-v2/visits/up")
         console.log("Total visits:", data.count);
     })
     .catch(() => {});
+
+/* ---------- SCROLL REVEAL ---------- */
+function setupScrollReveal() {
+    document.querySelectorAll(
+        'section > h1, section > h2.section-sub, section > p, section > .letter-box, section > .video-wrapper, .quiz-box'
+    ).forEach(el => el.classList.add('reveal'));
+
+    document.querySelectorAll('.card-grid > .flip-card').forEach((el, i) => {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i % 3) * 0.12 + 's';
+    });
+
+    document.querySelectorAll('.countdown-grid > .countdown-box').forEach((el, i) => {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i * 0.1) + 's';
+    });
+
+    document.querySelectorAll('.gallery > .polaroid').forEach((el, i) => {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i % 4) * 0.1 + 's';
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
+setupScrollReveal();
 </script>
 
 </body>
