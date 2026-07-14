@@ -519,7 +519,56 @@
     .quiz-feedback.reveal { color: var(--accent); font-weight: 500; }
 
     #reflectionBlock { display: none; }
-    #sendConfirm { display: none; margin-top: 15px; color: var(--accent); font-weight: 500; }
+
+    .saved-note {
+        font-size: 13px;
+        opacity: 0.75;
+        margin: -6px 0 20px 0;
+        font-style: italic;
+    }
+
+    .saved-answer {
+        margin-bottom: 20px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--card-border);
+    }
+
+    .saved-answer:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .saved-question {
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 14px;
+        margin: 0 0 6px 0;
+    }
+
+    .saved-text {
+        margin: 0;
+        line-height: 1.7;
+        font-size: 15px;
+    }
+
+    .saved-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+
+    .cta-secondary {
+        background: transparent;
+        border: 1px solid var(--primary);
+        color: var(--primary);
+    }
+
+    .cta-secondary:hover {
+        background: var(--primary);
+        color: #fff;
+    }
 
     /* BUTTON */
     button.cta {
@@ -769,8 +818,17 @@
             <h3>Anything else you want to tell me? 💌</h3>
             <textarea id="extraMsg" rows="3" placeholder="Write anything at all..."></textarea>
             <br>
-            <button class="cta" onclick="sendAnswers()">Send Your Answers To Me 💌</button>
-            <div id="sendConfirm">Your message is ready to send — I can't wait to read it. 🤍</div>
+            <button class="cta" onclick="saveAnswers()">Save My Answers 💾</button>
+        </div>
+    </div>
+
+    <div id="savedAnswersView" class="quiz-box" style="display:none;">
+        <h3>Your Saved Answers 🤍</h3>
+        <p class="saved-note">Saved right here on this device — come back anytime to read, edit, or delete them.</p>
+        <div id="savedAnswersContent"></div>
+        <div class="saved-actions">
+            <button class="cta" onclick="editAnswers()">✏️ Edit</button>
+            <button class="cta cta-secondary" onclick="deleteAnswers()">🗑️ Delete</button>
         </div>
     </div>
 </section>
@@ -1021,28 +1079,66 @@ function finishGiftQuestion() {
     setTimeout(() => scrollToSection('yourturn'), 300);
 }
 
-function sendAnswers() {
-    const q2 = document.getElementById('q2').value || '(left blank)';
-    const q3 = document.getElementById('q3').value || '(left blank)';
-    const q4 = document.getElementById('q4').value || '(left blank)';
-    const q5 = document.getElementById('q5').value || '(left blank)';
-    const extra = document.getElementById('extraMsg').value || '(nothing extra)';
+const REFLECTION_FIELDS = [
+    { key: 'q2', label: 'How much do I love you? 🤍' },
+    { key: 'q3', label: 'What did you like most about me?' },
+    { key: 'q4', label: 'What surprise did I give you that you liked the most?' },
+    { key: 'q5', label: "Out of all the handwritten letters I've given you, which one was your favourite — and why?" },
+    { key: 'extraMsg', label: 'Anything else you want to tell me? 💌' }
+];
 
-    const body =
-        "How much she thinks I love her:\n" + q2 +
-        "\n\nWhat she liked about me:\n" + q3 +
-        "\n\nHer favourite surprise:\n" + q4 +
-        "\n\nHer favourite handwritten letter:\n" + q5 +
-        "\n\nAnything else:\n" + extra;
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
 
-    localStorage.setItem('anu_answers', JSON.stringify({ q2, q3, q4, q5, extra, savedAt: new Date().toISOString() }));
+function saveAnswers() {
+    const data = {};
+    REFLECTION_FIELDS.forEach(({ key }) => {
+        data[key] = document.getElementById(key).value.trim();
+    });
+    data.savedAt = new Date().toISOString();
+    localStorage.setItem('anu_answers', JSON.stringify(data));
+    renderSavedAnswers(data);
+    setTimeout(() => scrollToSection('yourturn'), 100);
+}
 
-    const mailto = "mailto:rayankayathri1m@gmail.com?subject=" +
-        encodeURIComponent("Anu's Answers For You 💌") +
-        "&body=" + encodeURIComponent(body);
+function renderSavedAnswers(data) {
+    const content = document.getElementById('savedAnswersContent');
+    content.innerHTML = REFLECTION_FIELDS.map(({ key, label }) => {
+        const val = data[key] || '(left blank)';
+        return `<div class="saved-answer">
+            <p class="saved-question">${label}</p>
+            <p class="saved-text">${escapeHtml(val).replace(/\n/g, '<br>')}</p>
+        </div>`;
+    }).join('');
+    document.getElementById('reflectionBlock').style.display = 'none';
+    document.getElementById('savedAnswersView').style.display = 'block';
+}
 
-    window.location.href = mailto;
-    document.getElementById('sendConfirm').style.display = 'block';
+function editAnswers() {
+    const saved = JSON.parse(localStorage.getItem('anu_answers') || '{}');
+    REFLECTION_FIELDS.forEach(({ key }) => {
+        document.getElementById(key).value = saved[key] || '';
+    });
+    document.getElementById('savedAnswersView').style.display = 'none';
+    document.getElementById('reflectionBlock').style.display = 'block';
+}
+
+function deleteAnswers() {
+    if (!confirm("Delete your saved answers? This can't be undone.")) return;
+    localStorage.removeItem('anu_answers');
+    REFLECTION_FIELDS.forEach(({ key }) => {
+        document.getElementById(key).value = '';
+    });
+    document.getElementById('savedAnswersView').style.display = 'none';
+    document.getElementById('reflectionBlock').style.display = 'block';
+}
+
+const existingAnswers = localStorage.getItem('anu_answers');
+if (existingAnswers) {
+    try { renderSavedAnswers(JSON.parse(existingAnswers)); } catch (e) {}
 }
 
 /* ---------- FINAL SURPRISE + CONFETTI ---------- */
