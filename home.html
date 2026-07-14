@@ -190,7 +190,7 @@
     /* FLIP CARDS */
     .card-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 25px;
         max-width: 1000px;
         width: 100%;
@@ -199,7 +199,7 @@
 
     .flip-card {
         background: transparent;
-        height: 220px;
+        height: 300px;
         perspective: 1000px;
         cursor: pointer;
     }
@@ -256,9 +256,19 @@
         background: linear-gradient(135deg, var(--primary), var(--accent));
         color: #fff;
         transform: rotateY(180deg);
-        font-size: 15px;
+        font-size: 14.5px;
         line-height: 1.6;
+        align-items: flex-start;
+        text-align: left;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,0.5) transparent;
     }
+
+    .flip-card-back::-webkit-scrollbar { width: 5px; }
+    .flip-card-back::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 4px; }
+
+    .flip-card-back p { margin: 0; }
 
     /* GALLERY / POLAROID WITH TAPED REVEAL */
     .gallery {
@@ -756,66 +766,55 @@
 <section id="memories">
     <h1>Our Story, One Memory at a Time</h1>
     <h2 class="section-sub">click a card to open it</h2>
-    <!-- EDIT: swap the text inside each .flip-card-back with your real memories from day one -->
     <div class="card-grid">
         <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
-                    <div class="emoji">🌱</div>
-                    <h3>Day One</h3>
+                    <div class="emoji">🌙</div>
+                    <h3>The First Meet</h3>
                     <span class="hint">tap to open</span>
                 </div>
-                <div class="flip-card-back">I still remember how something so simple turned into something so important.</div>
+                <div class="flip-card-back"><p>The night I had cramps in my feet, you guys helped me — prepared hot water for me. Especially you — you showed me so much care, and asked me to stay in your room because you were worried something could happen to me in the middle of the night. That was so nice of you. That's how we really got to know each other — from that day, I started spending my nights with you all.</p></div>
             </div>
         </div>
         <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
-                    <div class="emoji">😂</div>
-                    <h3>The First Laugh</h3>
+                    <div class="emoji">🫂</div>
+                    <h3>The Connection</h3>
                     <span class="hint">tap to open</span>
                 </div>
-                <div class="flip-card-back">There's a laugh only you have — and it became one of my favorite sounds in the world.</div>
+                <div class="flip-card-back"><p>One day you left our room without telling any of us — you just vanished. We were all terrified and went looking for you, splitting up to search. When we found out you weren't okay, I found you near the stadium building in MMU. You were crying, and the moment I saw that, I felt so heavy inside. That was the moment I felt something — a real connection between us.</p></div>
             </div>
         </div>
         <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
-                    <div class="emoji">🤍</div>
-                    <h3>The Hard Days</h3>
+                    <div class="emoji">🧴</div>
+                    <h3>The Thailam</h3>
                     <span class="hint">tap to open</span>
                 </div>
-                <div class="flip-card-back">You never had to say anything on those days. Just being there was enough.</div>
+                <div class="flip-card-back"><p>One day I said my palm was paining, went to your room and asked for thailam. You said, "I only have kodari cap thailam — can I put this?" I said okay and reached for it, but you just took my hand, sat beside me, and rubbed the oil onto my palm yourself. I didn't expect that at all — in fact, no one has done that for me before. Amma thavire athuku aduthu Neenga Apro enkoode iruntha oruthavanga.</p></div>
             </div>
         </div>
         <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
                     <div class="emoji">😅</div>
-                    <h3>The Silly Fights</h3>
+                    <h3>The Fight</h3>
                     <span class="hint">tap to open</span>
                 </div>
-                <div class="flip-card-back">We fought about the smallest things and forgot about them five minutes later.</div>
+                <div class="flip-card-back"><p>Hmm, there's so much — honestly, I don't remember that much. I think theva ilatha vishyam thanave ennode nyabagathulenthu poyidum pole.</p></div>
             </div>
         </div>
         <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
-                    <div class="emoji">🌙</div>
-                    <h3>The Quiet Talks</h3>
+                    <div class="emoji">💭</div>
+                    <h3>Some Memories</h3>
                     <span class="hint">tap to open</span>
                 </div>
-                <div class="flip-card-back">Some of my favorite memories are just us, talking about nothing and everything.</div>
-            </div>
-        </div>
-        <div class="flip-card" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="emoji">🌸</div>
-                    <h3>Now</h3>
-                    <span class="hint">tap to open</span>
-                </div>
-                <div class="flip-card-back">Every day since has just added another reason to love you more, Anu akka.</div>
+                <div class="flip-card-back"><p>Sila memory lam en kanule antha scenes nyabagam iruku neraya nyabagam iruku but I can't describe those moments in words. But nenachu pakumbodhu Romba azhaga iruku. Enatha konjo kalam ungaloda pazhagi irunthalum ennode thanimaiya iruntha antha ovuru naalum Neenga Enaku kudutha memories ode mattum tha na nenachu nenachu vaalthuruke. Satiyama Ithutha unmai. Bayathode Engada unga kanule paturekudathunu Odi Odi ithe elame ungala nenaikamala na panirupe. Enatha mixed feeling irunthalum antha moments la nenachu patha nalatha iruku. Ennode foundation first year hostel memories la Neenga mattum tha oru 70% neranju irukinga.</p></div>
             </div>
         </div>
     </div>
