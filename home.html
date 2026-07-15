@@ -187,88 +187,127 @@
 
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* FLIP CARDS */
-    .card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 25px;
-        max-width: 1000px;
+    /* MEMORIES — ZIGZAG TIMELINE */
+    .memory-timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
+        max-width: 820px;
         width: 100%;
-        margin-top: 20px;
+        margin-top: 30px;
     }
 
-    .flip-card {
-        background: transparent;
-        height: 300px;
-        perspective: 1000px;
-        cursor: pointer;
+    .memory-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 22px;
     }
 
-    .flip-card-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        transition: transform 0.7s;
-        transform-style: preserve-3d;
+    .memory-row.align-right {
+        flex-direction: row-reverse;
     }
 
-    .flip-card.flipped .flip-card-inner {
-        transform: rotateY(180deg);
-    }
-
-    .flip-card-front, .flip-card-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        border-radius: 18px;
+    .memory-box {
+        flex: 0 0 auto;
+        width: 150px;
+        height: 150px;
+        border-radius: 20px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 15px 30px var(--shadow);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 20px;
-        border: 1px solid var(--card-border);
-        box-shadow: 0 15px 30px var(--shadow);
+        cursor: pointer;
+        text-align: center;
+        padding: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .flip-card-front {
-        background: var(--card-bg);
-        backdrop-filter: blur(6px);
-    }
+    .memory-box:hover { transform: scale(1.05); }
+    .memory-row.open .memory-box { transform: scale(1.05); box-shadow: 0 20px 40px var(--shadow); }
 
-    .flip-card-front .emoji { font-size: 34px; margin-bottom: 10px; }
+    .memory-box .emoji { font-size: 32px; margin-bottom: 8px; }
 
-    .flip-card-front h3 {
+    .memory-box h3 {
         font-family: 'Cormorant Garamond', serif;
         color: var(--primary);
         margin: 0;
-        font-size: 22px;
+        font-size: 16px;
+        line-height: 1.25;
     }
 
-    .flip-card-front span.hint {
-        margin-top: 10px;
-        font-size: 12px;
+    .memory-box .hint {
+        margin-top: 6px;
+        font-size: 10px;
         opacity: 0.6;
     }
 
-    .flip-card-back {
+    .memory-panel {
+        flex: 1 1 auto;
+        align-self: stretch;
+        max-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        border-radius: 20px;
         background: linear-gradient(135deg, var(--primary), var(--accent));
-        color: #fff;
-        transform: rotateY(180deg);
-        font-size: 15px;
-        line-height: 1.65;
-        align-items: flex-start;
-        text-align: left;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(255,255,255,0.5) transparent;
+        box-shadow: 0 15px 30px var(--shadow);
+        transition: max-width 0.6s ease, opacity 0.4s ease 0.15s, padding 0.6s ease;
     }
 
-    .flip-card-back::-webkit-scrollbar { width: 5px; }
-    .flip-card-back::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 4px; }
+    .memory-row.open .memory-panel {
+        max-width: 600px;
+        opacity: 1;
+        padding: 26px 28px;
+    }
 
-    .flip-card-back p { margin: 0; }
+    .memory-text p {
+        color: #fff;
+        font-size: 15px;
+        line-height: 1.7;
+        margin: 0 0 14px 0;
+    }
+
+    .memory-text p:last-child { margin-bottom: 0; }
+
+    .memory-text .word {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(8px);
+        animation: word-in 0.5s ease forwards;
+    }
+
+    @keyframes word-in {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 700px) {
+        .memory-row, .memory-row.align-right {
+            flex-direction: column;
+        }
+        .memory-row { align-items: flex-start; }
+        .memory-row.align-right { align-items: flex-end; }
+        .memory-panel {
+            max-width: none;
+            width: 100%;
+            max-height: 0;
+            align-self: auto;
+            transition: max-height 0.6s ease, opacity 0.4s ease 0.15s, padding 0.6s ease;
+        }
+        .memory-row.open .memory-panel {
+            max-height: 1200px;
+            width: 100%;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .memory-text .word { animation: none; opacity: 1; transform: none; }
+    }
 
     /* HUG BUTTON */
     .hug-button-wrap {
@@ -836,66 +875,11 @@
     <div class="letter-box" id="letterBox"></div>
 </section>
 
-<!-- MEMORIES / FLIP CARDS -->
+<!-- MEMORIES / ZIGZAG TIMELINE -->
 <section id="memories">
     <h1>Our Story, One Memory at a Time</h1>
-    <h2 class="section-sub">click a card to open it</h2>
-    <div class="card-grid">
-        <div class="flip-card" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="emoji">🌙</div>
-                    <h3>The First Meet</h3>
-                    <span class="hint">tap to open</span>
-                </div>
-                <div class="flip-card-back"><p>The first time we really got to know each other was the night I had terrible cramps in my feet. You all helped me prepare hot water, but you especially showed me so much care. You were genuinely worried something might happen to me in the middle of the night, so you asked me to stay in your room. That small act of kindness meant so much to me. From that day onwards, I started spending almost every night with all of you.</p></div>
-            </div>
-        </div>
-        <div class="flip-card" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="emoji">🫂</div>
-                    <h3>The Connection</h3>
-                    <span class="hint">tap to open</span>
-                </div>
-                <div class="flip-card-back"><p>One day, you suddenly left our room without telling any of us. You just disappeared. We were all terrified and immediately split up to look for you. When I finally found you near the STAD building in MMU, you were sitting there crying. The moment I saw you like that, my heart felt so heavy. I don't know how to explain it, but that was the moment I felt a special connection between us.</p></div>
-            </div>
-        </div>
-        <div class="flip-card" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="emoji">🧴</div>
-                    <h3>The Thailam</h3>
-                    <span class="hint">tap to open</span>
-                </div>
-                <div class="flip-card-back"><p>One day, my palm was hurting, so I came to your room and asked if you had any thailam. You smiled and said, "Kodari cap thailam only I have. Can put this?" I said okay and reached out to take it from your hand. But instead, you gently held my hand, sat beside me, applied the thailam on my palm, and rubbed it for me. I never expected that at all. No one had ever done something like that for me before. Amma thavira, athuku appuram neenga... and after that, someone who stayed by my side.</p></div>
-            </div>
-        </div>
-        <div class="flip-card" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="emoji">😅</div>
-                    <h3>The Fight</h3>
-                    <span class="hint">tap to open</span>
-                </div>
-                <div class="flip-card-back"><p>There were so many moments between us, including our fights. Honestly, I don't remember every detail anymore. I guess unnecessary things slowly disappear from my memory with time.</p></div>
-            </div>
-        </div>
-        <div class="flip-card" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="emoji">💭</div>
-                    <h3>Some Memories</h3>
-                    <span class="hint">tap to open</span>
-                </div>
-                <div class="flip-card-back">
-                    <p>Some memories are still so clear in my mind. I can still picture those scenes exactly as they happened, but somehow I can't put them into words. Whenever I think back, they feel so beautiful.</p>
-                    <p style="margin-top:14px;">Even though I only spent a short period of time with all of you, every lonely day I went through was filled with the memories you gave me. Sathyama, that's the truth. Out of fear that I might accidentally meet your eyes, I kept avoiding you, trying not to think about you. Even though it was a mix of emotions, whenever I look back at those moments, they only make me smile.</p>
-                    <p style="margin-top:14px;">Among all my Foundation first-year hostel memories, you alone fill almost 70% of them.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h2 class="section-sub">tap a box to open it</h2>
+    <div class="memory-timeline" id="memoryTimeline"></div>
 </section>
 
 <!-- HUG BUTTON -->
@@ -1132,6 +1116,90 @@ const storyObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.3 });
 storyObserver.observe(document.getElementById('story'));
+
+/* ---------- MEMORIES ZIGZAG TIMELINE ---------- */
+const memories = [
+    {
+        emoji: '🌙',
+        title: 'The First Meet',
+        paragraphs: [
+            "The first time we really got to know each other was the night I had terrible cramps in my feet. You all helped me prepare hot water, but you especially showed me so much care. You were genuinely worried something might happen to me in the middle of the night, so you asked me to stay in your room. That small act of kindness meant so much to me. From that day onwards, I started spending almost every night with all of you."
+        ]
+    },
+    {
+        emoji: '🫂',
+        title: 'The Connection',
+        paragraphs: [
+            "One day, you suddenly left our room without telling any of us. You just disappeared. We were all terrified and immediately split up to look for you. When I finally found you near the STAD building in MMU, you were sitting there crying. The moment I saw you like that, my heart felt so heavy. I don't know how to explain it, but that was the moment I felt a special connection between us."
+        ]
+    },
+    {
+        emoji: '🧴',
+        title: 'The Thailam',
+        paragraphs: [
+            'One day, my palm was hurting, so I came to your room and asked if you had any thailam. You smiled and said, "Kodari cap thailam only I have. Can put this?" I said okay and reached out to take it from your hand. But instead, you gently held my hand, sat beside me, applied the thailam on my palm, and rubbed it for me. I never expected that at all. No one had ever done something like that for me before. Amma thavira, athuku appuram neenga... and after that, someone who stayed by my side.'
+        ]
+    },
+    {
+        emoji: '😅',
+        title: 'The Fight',
+        paragraphs: [
+            "There were so many moments between us, including our fights. Honestly, I don't remember every detail anymore. I guess unnecessary things slowly disappear from my memory with time."
+        ]
+    },
+    {
+        emoji: '💭',
+        title: 'Some Memories',
+        paragraphs: [
+            "Some memories are still so clear in my mind. I can still picture those scenes exactly as they happened, but somehow I can't put them into words. Whenever I think back, they feel so beautiful.",
+            "Even though I only spent a short period of time with all of you, every lonely day I went through was filled with the memories you gave me. Sathyama, that's the truth. Out of fear that I might accidentally meet your eyes, I kept avoiding you, trying not to think about you. Even though it was a mix of emotions, whenever I look back at those moments, they only make me smile.",
+            "Among all my Foundation first-year hostel memories, you alone fill almost 70% of them."
+        ]
+    }
+];
+
+const memoryTimeline = document.getElementById('memoryTimeline');
+memories.forEach((m, i) => {
+    const row = document.createElement('div');
+    row.className = 'memory-row' + (i % 2 === 1 ? ' align-right' : '');
+    row.innerHTML = `
+        <div class="memory-box">
+            <div class="emoji">${m.emoji}</div>
+            <h3>${m.title}</h3>
+            <span class="hint">tap to open</span>
+        </div>
+        <div class="memory-panel">
+            <div class="memory-text"></div>
+        </div>
+    `;
+    memoryTimeline.appendChild(row);
+
+    const box = row.querySelector('.memory-box');
+    const textEl = row.querySelector('.memory-text');
+    let typed = false;
+
+    box.addEventListener('click', () => {
+        const opening = !row.classList.contains('open');
+        row.classList.toggle('open');
+        if (opening && !typed) {
+            typed = true;
+            let wordIndex = 0;
+            m.paragraphs.forEach(paragraph => {
+                const p = document.createElement('p');
+                paragraph.split(' ').forEach(word => {
+                    const span = document.createElement('span');
+                    span.className = 'word';
+                    span.textContent = word;
+                    span.style.animationDelay = (wordIndex * 0.045) + 's';
+                    p.appendChild(span);
+                    p.appendChild(document.createTextNode(' '));
+                    wordIndex++;
+                });
+                textEl.appendChild(p);
+            });
+        }
+    });
+});
 
 /* ---------- GALLERY WITH PLACEHOLDER FALLBACK ---------- */
 const galleryPhotos = [
@@ -1496,9 +1564,9 @@ function setupScrollReveal() {
         'section > h1, section > h2.section-sub, section > p, section > .letter-box, section > .video-wrapper, .quiz-box'
     ).forEach(el => el.classList.add('reveal'));
 
-    document.querySelectorAll('.card-grid > .flip-card').forEach((el, i) => {
+    document.querySelectorAll('.memory-timeline > .memory-row').forEach((el, i) => {
         el.classList.add('reveal');
-        el.style.transitionDelay = (i % 3) * 0.12 + 's';
+        el.style.transitionDelay = (i * 0.12) + 's';
     });
 
     document.querySelectorAll('.countdown-grid > .countdown-box').forEach((el, i) => {
