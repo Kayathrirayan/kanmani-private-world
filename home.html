@@ -957,7 +957,7 @@
             <textarea id="q4" rows="2" placeholder="Your answer..."></textarea>
         </div>
         <div class="quiz-box">
-            <h3>Out of all the handwritten letters I've given you, which one was your favourite — and why?</h3>
+            <h3>Out of all the handwritten letters I've given you, which one was your favourite, and why?</h3>
             <textarea id="q5" rows="2" placeholder="Your answer..."></textarea>
         </div>
         <div class="quiz-box">
@@ -970,7 +970,7 @@
 
     <div id="savedAnswersView" class="quiz-box" style="display:none;">
         <h3>Your Saved Answers 🤍</h3>
-        <p class="saved-note">Saved right here on this device — come back anytime to read, edit, or delete them.</p>
+        <p class="saved-note">Saved right here on this device, come back anytime to read, edit, or delete them.</p>
         <div id="savedAnswersContent"></div>
         <div class="saved-actions">
             <button class="cta" onclick="editAnswers()">✏️ Edit</button>
@@ -1069,9 +1069,9 @@ musicBtn.addEventListener('click', () => {
 /* ---------- TYPEWRITER LETTER ---------- */
 const letterParagraphs = [
     "Happy Birthday, Anu akka.",
-    "Today is about you — your strength, your dreams, your journey. I truly hope this year brings you success in your career, confidence in every decision you make, and the kind of happiness that stays peacefully in your heart.",
+    "Today is about you, your strength, your dreams, your journey. I truly hope this year brings you success in your career, confidence in every decision you make, and the kind of happiness that stays peacefully in your heart.",
     "You work hard, you carry responsibilities quietly, and you love deeply without expecting anything back. You deserve growth, recognition, and everything beautiful that life can offer.",
-    "As your little sister, I feel proud to stand beside you. The confidence I have today, the love I understand today — it grew because you were there guiding me in your own silent way.",
+    "As your little sister, I feel proud to stand beside you. The confidence I have today, the love I understand today, it grew because you were there guiding me in your own silent way.",
     "You showed me how beautiful I am when I couldn’t see it myself. Because of you, I discovered how beautiful my own heart can be.",
     "Happy Birthday my dear Kanmani. I’m always yours."
 ];
@@ -1361,11 +1361,11 @@ function checkGift() {
     giftAttempts++;
 
     if (val.includes('kiss') || val.includes('chocolate')) {
-        feedback.textContent = "Yes! Kisses chocolates — I still remember that moment. 🍫💋";
+        feedback.textContent = "Yes! Kisses chocolates, I still remember that moment. 🍫💋";
         feedback.className = 'quiz-feedback correct';
         finishGiftQuestion();
     } else if (giftAttempts >= 2) {
-        feedback.textContent = "It was Kisses chocolates 🍫 — the very first thing I ever gave you.";
+        feedback.textContent = "It was Kisses chocolates 🍫, the very first thing I ever gave you.";
         feedback.className = 'quiz-feedback reveal';
         finishGiftQuestion();
     } else {
@@ -1385,7 +1385,7 @@ const REFLECTION_FIELDS = [
     { key: 'q2', label: 'How much do I love you? 🤍' },
     { key: 'q3', label: 'What did you like most about me?' },
     { key: 'q4', label: 'What surprise did I give you that you liked the most?' },
-    { key: 'q5', label: "Out of all the handwritten letters I've given you, which one was your favourite — and why?" },
+    { key: 'q5', label: "Out of all the handwritten letters I've given you, which one was your favourite, and why?" },
     { key: 'extraMsg', label: 'Anything else you want to tell me? 💌' }
 ];
 
