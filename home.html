@@ -549,6 +549,66 @@
         opacity: 0.9;
     }
 
+    /* GHIBLI ART GALLERY */
+    #ghibli {
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        isolation: isolate;
+    }
+
+    #ghibli::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(13,10,20,0.72), rgba(13,10,20,0.85));
+        z-index: -1;
+    }
+
+    #ghibli h1, #ghibli .section-sub {
+        color: #fff;
+    }
+
+    #ghibli .section-sub {
+        color: #f4d9a0;
+    }
+
+    .ghibli-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 28px;
+        max-width: 1100px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .ghibli-frame {
+        background: #fdfaf3;
+        padding: 12px 12px 44px 12px;
+        border-radius: 4px;
+        box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+        cursor: pointer;
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .ghibli-frame:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 28px 55px rgba(0,0,0,0.55);
+    }
+
+    .ghibli-frame img {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        border-radius: 2px;
+        display: block;
+    }
+
+    .ghibli-frame .caption {
+        color: #333;
+        margin-top: 12px;
+    }
+
     /* VIDEO SECTION */
     .video-wrapper {
         display: flex;
@@ -849,6 +909,7 @@
         <a onclick="scrollToSection('memories')">Memories</a>
         <a onclick="scrollToSection('hug')">Hug</a>
         <a onclick="scrollToSection('gallery')">Gallery</a>
+        <a onclick="scrollToSection('ghibli')">Ghibli Art</a>
         <a onclick="scrollToSection('video')">Video</a>
         <a onclick="scrollToSection('countdown')">Countdown</a>
         <a onclick="scrollToSection('yourturn')">Your Turn</a>
@@ -906,6 +967,13 @@
     <img id="lightboxImg" src="" alt="">
     <div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
+
+<!-- GHIBLI ART -->
+<section id="ghibli" style="background-image: url('ghibli/6.png');">
+    <h1>A Little Ghibli Magic ✨</h1>
+    <h2 class="section-sub">our story, reimagined</h2>
+    <div class="ghibli-grid" id="ghibliGrid"></div>
+</section>
 
 <!-- VIDEO -->
 <section id="video">
@@ -1328,6 +1396,29 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('active');
 });
 
+/* ---------- GHIBLI ART GALLERY ---------- */
+const ghibliArt = [
+    { file: "1.png", caption: "All of Us, Together 🛕" },
+    { file: "2.png", caption: "Beach Day Sisters 🌴" },
+    { file: "3.png", caption: "Golden Fields, Golden Days 🌾" },
+    { file: "4.png", caption: "Some of My Favorite People 🤍" },
+    { file: "5.png", caption: "Close Enough to Feel the Warmth 💛" },
+    { file: "6.png", caption: "The Graduation Moment 🎓" },
+    { file: "7.png", caption: "A Quiet Moment 💭" }
+];
+const ghibliGrid = document.getElementById('ghibliGrid');
+ghibliArt.forEach(({ file, caption }) => {
+    const src = `ghibli/${file}`;
+    const frame = document.createElement('div');
+    frame.className = 'ghibli-frame';
+    frame.innerHTML = `
+        <img src="${src}" alt="${caption}" loading="lazy">
+        <p class="caption">${caption}</p>
+    `;
+    frame.addEventListener('click', () => openLightbox(src, caption));
+    ghibliGrid.appendChild(frame);
+});
+
 /* ---------- COUNTDOWN TO FEB 20 ---------- */
 function updateCountdown() {
     const now = new Date();
@@ -1575,6 +1666,11 @@ function setupScrollReveal() {
     });
 
     document.querySelectorAll('.gallery > .polaroid').forEach((el, i) => {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i % 4) * 0.1 + 's';
+    });
+
+    document.querySelectorAll('.ghibli-grid > .ghibli-frame').forEach((el, i) => {
         el.classList.add('reveal');
         el.style.transitionDelay = (i % 4) * 0.1 + 's';
     });
