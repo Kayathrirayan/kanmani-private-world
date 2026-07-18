@@ -577,6 +577,12 @@
         color: #fff;
     }
 
+    /* Video section: darken the center where the player sits, let the art
+       breathe more at the edges instead of a flat overlay */
+    #video.art-bg::before {
+        background: radial-gradient(ellipse 65% 55% at center, rgba(13,10,20,0.94) 0%, rgba(13,10,20,0.75) 60%, rgba(13,10,20,0.88) 100%);
+    }
+
     .art-bg > p,
     .art-bg .gallery-hint,
     .art-bg #countdownSub {
@@ -588,6 +594,14 @@
         display: flex;
         justify-content: center;
         margin-top: 40px;
+    }
+
+    .art-bg .video-wrapper {
+        padding: 22px;
+        background: rgba(10,8,15,0.55);
+        border-radius: 28px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 20px 45px rgba(0,0,0,0.45);
     }
 
     .video-wrapper video {
@@ -942,7 +956,7 @@
 </div>
 
 <!-- VIDEO -->
-<section id="video" class="art-bg" style="background-image: url('ghibli/6.png');">
+<section id="video" class="art-bg" style="background-image: url('ghibli/10.png'); background-position: top center;">
     <h1>Birthday Memory 🎬</h1>
     <div class="video-wrapper">
         <video controls>
@@ -953,7 +967,7 @@
 </section>
 
 <!-- COUNTDOWN -->
-<section id="countdown" class="art-bg" style="background-image: url('ghibli/2.png');">
+<section id="countdown" class="art-bg" style="background-image: url('ghibli/8.png');">
     <h1 id="countdownTitle">Counting Down to Your Day 🎂</h1>
     <p id="countdownSub">Every year on February 20th, the world gets a little brighter.</p>
     <div class="countdown-grid" id="countdownGrid">
@@ -965,7 +979,7 @@
 </section>
 
 <!-- YOUR TURN: quiz + reflections + guestbook -->
-<section id="yourturn" class="art-bg" style="background-image: url('ghibli/3.png');">
+<section id="yourturn" class="art-bg" style="background-image: url('ghibli/9.png');">
     <h1>Your Turn 💌</h1>
     <h2 class="section-sub">a little game, then a little space just for you</h2>
 
