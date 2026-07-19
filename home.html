@@ -696,108 +696,6 @@
         box-shadow: 0 20px 40px var(--shadow);
     }
 
-    /* SPIN THE WHEEL */
-    .wheel-area {
-        position: relative;
-        width: 260px;
-        height: 260px;
-        margin: 30px auto 10px auto;
-    }
-
-    .wheel-pointer {
-        position: absolute;
-        top: -16px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 28px;
-        color: #fdfaf0;
-        z-index: 5;
-        text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    }
-
-    .wheel-outer {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        border: 6px solid #fdfaf0;
-        box-shadow: 0 20px 45px rgba(0,0,0,0.55);
-        overflow: hidden;
-        position: relative;
-    }
-
-    .wheel-disc {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        position: relative;
-        transition: transform 3.6s cubic-bezier(0.17, 0.67, 0.1, 0.99);
-        background: conic-gradient(
-            #800020 0deg 45deg,
-            #d4a017 45deg 90deg,
-            #a8325a 90deg 135deg,
-            #e8bd5a 135deg 180deg,
-            #800020 180deg 225deg,
-            #d4a017 225deg 270deg,
-            #a8325a 270deg 315deg,
-            #e8bd5a 315deg 360deg
-        );
-    }
-
-    .wheel-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        font-size: 24px;
-        width: 26px;
-        height: 26px;
-        margin: -13px 0 0 -13px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .wheel-result {
-        max-width: 480px;
-        width: 100%;
-        margin: 24px auto 0 auto;
-        min-height: 0;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 0.5s ease, transform 0.5s ease;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        border-radius: 16px;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    .wheel-result.show {
-        opacity: 1;
-        transform: translateY(0);
-        padding: 20px 26px;
-    }
-
-    .wheel-result .result-label {
-        font-weight: 600;
-        color: #fff;
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        display: block;
-        margin-bottom: 6px;
-        opacity: 0.85;
-    }
-
-    .wheel-result .result-text {
-        font-family: 'Cormorant Garamond', serif;
-        font-style: italic;
-        font-size: 17px;
-        color: #fff;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .wheel-disc { transition: none; }
-    }
-
     /* COUNTDOWN */
     .countdown-grid {
         display: flex;
@@ -1083,13 +981,12 @@
         <a onclick="scrollToSection('story')">Story</a>
         <a onclick="scrollToSection('memories')">Memories</a>
         <a onclick="scrollToSection('hug')">Hug</a>
-        <a onclick="scrollToSection('certificate')">Award</a>
         <a onclick="scrollToSection('gallery')">Gallery</a>
         <a onclick="scrollToSection('video')">Video</a>
-        <a onclick="scrollToSection('wheel')">Spin</a>
         <a onclick="scrollToSection('countdown')">Countdown</a>
         <a onclick="scrollToSection('yourturn')">Your Turn</a>
         <a onclick="scrollToSection('final')">Surprise</a>
+        <a onclick="scrollToSection('certificate')">Award</a>
     </div>
     <button id="themeToggle">🌙 <span class="label">Night Mode</span></button>
     <button id="musicToggle" title="Play music">🔈</button>
@@ -1129,32 +1026,6 @@
     <div class="hug-message" id="hugMessage"></div>
 </section>
 
-<!-- CERTIFICATE -->
-<section id="certificate" class="art-bg" style="background-image: url('ghibli/6.png');">
-    <h1>An Official Award 🏆</h1>
-    <h2 class="section-sub">totally official, totally biased</h2>
-    <div class="certificate-card">
-        <div class="certificate-seal">🎖️</div>
-        <p class="certificate-kicker">Certificate of Recognition</p>
-        <h3 class="certificate-name">Anu Akka</h3>
-        <p class="certificate-body">is hereby awarded the title of</p>
-        <p class="certificate-title">Best Sister In The Universe</p>
-        <p class="certificate-body">for outstanding achievement in:</p>
-        <ul class="certificate-list">
-            <li>🌙 Showing up at 2am without being asked twice</li>
-            <li>🧴 Turning small pains into "let me take care of you"</li>
-            <li>🤍 Making a little sister feel safe, always</li>
-            <li>💌 Every handwritten letter that meant more than she knows</li>
-            <li>🎓 Making us all so proud on graduation day</li>
-            <li>😂 Being the reason for at least 70% of my best memories</li>
-        </ul>
-        <div class="certificate-signature">
-            <span>With all my love,</span>
-            <span class="certificate-sign">your forever little sister</span>
-        </div>
-    </div>
-</section>
-
 <!-- GALLERY / SCRAPBOOK -->
 <section id="gallery" class="art-bg" style="background-image: url('ghibli/3.png');">
     <h1>Little Pieces of Us 📷</h1>
@@ -1179,20 +1050,6 @@
         </video>
     </div>
     <p style="margin-top:30px;">A small piece of today, saved forever.</p>
-</section>
-
-<!-- SPIN THE WHEEL -->
-<section id="wheel" class="art-bg" style="background-image: url('ghibli/11.png');">
-    <h1>Spin For a Surprise 🎡</h1>
-    <h2 class="section-sub">spin as many times as you want</h2>
-    <div class="wheel-area">
-        <div class="wheel-pointer">▼</div>
-        <div class="wheel-outer">
-            <div class="wheel-disc" id="wheelDisc"></div>
-        </div>
-    </div>
-    <button class="cta" onclick="spinWheel()">Spin the Wheel</button>
-    <div class="wheel-result" id="wheelResult"></div>
 </section>
 
 <!-- COUNTDOWN -->
@@ -1260,6 +1117,32 @@
 <section id="final" class="art-bg" style="background-image: url('ghibli/4.png');">
     <h1>One More Thing 🤍</h1>
     <button class="cta" onclick="showSurprise()">Click Me</button>
+</section>
+
+<!-- CERTIFICATE -->
+<section id="certificate" class="art-bg" style="background-image: url('ghibli/6.png');">
+    <h1>An Official Award 🏆</h1>
+    <h2 class="section-sub">totally official, totally biased</h2>
+    <div class="certificate-card">
+        <div class="certificate-seal">🎖️</div>
+        <p class="certificate-kicker">Certificate of Recognition</p>
+        <h3 class="certificate-name">Anu Akka</h3>
+        <p class="certificate-body">is hereby awarded the title of</p>
+        <p class="certificate-title">Best Sister In The Universe</p>
+        <p class="certificate-body">for outstanding achievement in:</p>
+        <ul class="certificate-list">
+            <li>🌙 Showing up at 2am without being asked twice</li>
+            <li>🧴 Turning small pains into "let me take care of you"</li>
+            <li>🤍 Making a little sister feel safe, always</li>
+            <li>💌 Every handwritten letter that meant more than she knows</li>
+            <li>🎓 Making us all so proud on graduation day</li>
+            <li>😂 Being the reason for at least 70% of my best memories</li>
+        </ul>
+        <div class="certificate-signature">
+            <span>With all my love,</span>
+            <span class="certificate-sign">your forever little sister</span>
+        </div>
+    </div>
 </section>
 
 <footer>
@@ -1591,55 +1474,6 @@ function sendHug() {
     hugMsgTimer = setTimeout(() => msgEl.classList.remove('show'), 3200);
 }
 
-/* ---------- SPIN THE WHEEL ---------- */
-const wheelMessages = [
-    { icon: '💛', label: 'A Compliment', text: "You have the kindest eyes I know — they always make people feel safe." },
-    { icon: '🤫', label: 'A Confession', text: "I still have the first gift you ever gave me. I never told you that." },
-    { icon: '😂', label: 'An Inside Joke', text: "Kisses chocolates. That's it. That's the joke. You know why." },
-    { icon: '🌟', label: 'A Wish For You', text: "May this year bring you everything you've quietly hoped for." },
-    { icon: '📸', label: 'A Random Memory', text: "The night my feet cramped and you stayed up with me — I think about that often." },
-    { icon: '🤪', label: 'A Silly Fact', text: "You're the reason 'vetti selfie' is a phrase we actually use now." },
-    { icon: '💌', label: 'A Love Note', text: "Every letter you've written me, I've kept. Every single one." },
-    { icon: '🤗', label: 'One More Hug', text: "Consider this your official, wheel-certified hug for today." }
-];
-
-const wheelDisc = document.getElementById('wheelDisc');
-wheelMessages.forEach((m, i) => {
-    const segmentAngle = 360 / wheelMessages.length;
-    const midAngle = i * segmentAngle + segmentAngle / 2;
-    const icon = document.createElement('span');
-    icon.className = 'wheel-icon';
-    icon.textContent = m.icon;
-    icon.style.transform = `rotate(${midAngle}deg) translate(0, -95px) rotate(${-midAngle}deg)`;
-    wheelDisc.appendChild(icon);
-});
-
-let wheelRotation = 0;
-let wheelSpinning = false;
-function spinWheel() {
-    if (wheelSpinning) return;
-    wheelSpinning = true;
-
-    const segments = wheelMessages.length;
-    const segmentAngle = 360 / segments;
-    const randomIndex = Math.floor(Math.random() * segments);
-    const targetMod = (360 - (randomIndex * segmentAngle + segmentAngle / 2)) % 360;
-    const currentMod = ((wheelRotation % 360) + 360) % 360;
-    const delta = (targetMod - currentMod + 360) % 360;
-    wheelRotation += 5 * 360 + delta;
-    wheelDisc.style.transform = `rotate(${wheelRotation}deg)`;
-
-    const resultEl = document.getElementById('wheelResult');
-    resultEl.classList.remove('show');
-
-    setTimeout(() => {
-        const chosen = wheelMessages[randomIndex];
-        resultEl.innerHTML = `<span class="result-label">${chosen.label}</span><span class="result-text">${chosen.text}</span>`;
-        resultEl.classList.add('show');
-        wheelSpinning = false;
-    }, 3700);
-}
-
 /* ---------- LIGHTBOX ---------- */
 function openLightbox(src, caption) {
     document.getElementById('lightboxImg').src = src;
@@ -1887,7 +1721,7 @@ fetch("https://api.counterapi.dev/v1/kanmani-private-world-v2/visits/up")
 /* ---------- SCROLL REVEAL ---------- */
 function setupScrollReveal() {
     document.querySelectorAll(
-        'section > h1, section > h2.section-sub, section > p, section > .letter-box, section > .video-wrapper, .quiz-box, .certificate-card, .wheel-area'
+        'section > h1, section > h2.section-sub, section > p, section > .letter-box, section > .video-wrapper, .quiz-box, .certificate-card'
     ).forEach(el => el.classList.add('reveal'));
 
     document.querySelectorAll('.memory-timeline > .memory-row').forEach((el, i) => {
