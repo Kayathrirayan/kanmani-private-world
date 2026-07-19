@@ -382,17 +382,35 @@
         .hug-button-wrap::before { animation: none; opacity: 0.2; }
     }
 
-    /* CERTIFICATE */
+    /* CERTIFICATE / LETTER */
+    #certificateRevealBtn {
+        margin-bottom: 10px;
+    }
+
     .certificate-card {
-        max-width: 560px;
+        max-width: 640px;
         width: 100%;
         background: #fdfaf0;
         border: 3px double #c9a227;
         border-radius: 8px;
-        padding: 45px 40px;
+        padding: 0 40px;
         box-shadow: 0 25px 55px rgba(0,0,0,0.5);
         text-align: center;
         position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+        max-height: 0;
+        overflow: hidden;
+        pointer-events: none;
+        transition: opacity 0.7s ease, transform 0.7s ease, max-height 1s ease, padding 0.7s ease;
+    }
+
+    .certificate-card.revealed {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 3200px;
+        padding: 45px 40px;
+        pointer-events: auto;
     }
 
     .certificate-seal {
@@ -414,38 +432,19 @@
         font-family: 'Cormorant Garamond', serif;
         color: #800020;
         font-size: 34px;
-        margin: 0 0 14px 0;
+        margin: 0 0 18px 0;
+    }
+
+    .certificate-letter {
+        text-align: left;
     }
 
     .certificate-body {
         color: #555;
         font-size: 15px;
-        margin: 6px 0;
+        line-height: 1.8;
+        margin: 0 0 16px 0;
         max-width: none;
-    }
-
-    .certificate-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-weight: 700;
-        color: #c9a227;
-        font-size: 24px;
-        margin: 8px 0 14px 0;
-    }
-
-    .certificate-list {
-        list-style: none;
-        text-align: left;
-        margin: 18px 0;
-        padding: 0;
-        border-top: 1px solid rgba(201,162,39,0.35);
-        border-bottom: 1px solid rgba(201,162,39,0.35);
-        padding: 16px 0;
-    }
-
-    .certificate-list li {
-        color: #444;
-        font-size: 14.5px;
-        line-height: 1.9;
     }
 
     .certificate-signature {
@@ -453,6 +452,7 @@
         display: flex;
         flex-direction: column;
         gap: 4px;
+        text-align: center;
     }
 
     .certificate-signature span:first-child {
@@ -465,6 +465,17 @@
         font-style: italic;
         font-size: 20px;
         color: #800020;
+    }
+
+    .certificate-note {
+        margin-top: 20px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(201,162,39,0.35);
+        color: #9c7a1c;
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-size: 14px;
+        text-align: center;
     }
 
     /* GALLERY / POLAROID WITH TAPED REVEAL */
@@ -1119,29 +1130,36 @@
     <button class="cta" onclick="showSurprise()">Click Me</button>
 </section>
 
-<!-- CERTIFICATE -->
+<!-- CERTIFICATE / LETTER -->
 <section id="certificate" class="art-bg" style="background-image: url('ghibli/6.png');">
     <h1>An Official Award 🏆</h1>
     <h2 class="section-sub">totally official, totally biased</h2>
-    <div class="certificate-card">
-        <div class="certificate-seal">🎖️</div>
-        <p class="certificate-kicker">Certificate of Recognition</p>
+    <button class="cta" id="certificateRevealBtn" onclick="toggleCertificate()">Tap to See It 🏆</button>
+    <div class="certificate-card" id="certificateCard">
+        <div class="certificate-seal">🤍</div>
+        <p class="certificate-kicker">Not a Certificate — Just the Truth</p>
         <h3 class="certificate-name">Anu Akka</h3>
-        <p class="certificate-body">is hereby awarded the title of</p>
-        <p class="certificate-title">Best Sister In The Universe</p>
-        <p class="certificate-body">for outstanding achievement in:</p>
-        <ul class="certificate-list">
-            <li>🌙 Showing up at 2am without being asked twice</li>
-            <li>🧴 Turning small pains into "let me take care of you"</li>
-            <li>🤍 Making a little sister feel safe, always</li>
-            <li>💌 Every handwritten letter that meant more than she knows</li>
-            <li>🎓 Making us all so proud on graduation day</li>
-            <li>😂 Being the reason for at least 70% of my best memories</li>
-        </ul>
-        <div class="certificate-signature">
-            <span>With all my love,</span>
-            <span class="certificate-sign">your forever little sister</span>
+        <div class="certificate-letter">
+            <p class="certificate-body">An emotional thank you — for always being with me, listening, and giving me advice through everything I've gone through. For standing by my side and loving me endlessly. For making me feel special.</p>
+            <p class="certificate-body">The words she said when I was low — "I'm here with you." Thank you for that. No one had said that to me before.</p>
+            <p class="certificate-body">Sometimes if I slept late, I'd ask her to wake me up in the morning. Even though she's rushing, she'll still call me and wake me up. Waking up and listening to her voice first thing in the morning feels so nice.</p>
+            <p class="certificate-body">A sister is normal. But you are an angel who walked into my life unexpectedly and changed me.</p>
+            <p class="certificate-body">Ithuthaan Anushree, en akka.</p>
+            <p class="certificate-body">"Anu akka" romba azhagana peru… athe mathiri manasum romba azhagana manasu. Manasu eh ivlo azhaga irundha, andha manushanga epdi azhaga irupanga athemaritha en akka appadi oru azhagu.</p>
+            <p class="certificate-body">Neraya ups and downs, sanda, kovam, konjam distance… panna koodaadha sila thavarugal ellam nadanthuruchu. Aana andha strong bond nala dhaan, innum namma rendu perum ivlo close ah irukkom. Adhu dhaan namma unbreakable bond.</p>
+            <p class="certificate-body">I'm very, very grateful to have a person like you in my life. Edhavadhu nadandhaalum, evlo ups and downs vandhaalum, en respect, love, and care unga mela oru naalum maaradhu.</p>
+            <p class="certificate-body">En vaalkaila oru time la, naan ellar kitteyum distance vechuttu, yaarayum nesikkama, yaaroda pechayum kekkame thaniya suthittu irundhen. Aana andha ennai, oru azhagaana human being-aa maathinathu neenga dhaan, akka.</p>
+            <p class="certificate-body">Ennala kooda oruthavanga nesikka mudiyum, anbu kaatta mudiyum nu unara vechadhu neenga. Andha anubavathai enakku kuduthadhu neenga dhaan. Neenga en life la varala na, naan ippo ippadi oru nalla attitude-oda, oru loving person-aa irundhiruppen-aa nu ketta… enakku nijamaa theriyadhu.</p>
+            <p class="certificate-body">Appo irundha naanum, ippo irukura naanum romba vithyasam iruku. Ippo irukura ennai enakku romba pidichiruku. Palaya naan… oru mosamana character konjam psycho, konjam sadist… romba bad. Ippo yosicha kooda pidikkadhu.</p>
+            <p class="certificate-body">Indha ellathayum maatharthukku dhaan kadavul en life la Anu akka madhiri oru pure soul anuppirukaaru nu namburen. Ulagathula paavam adhigamaana podhu, kadavul manitha roobam eduthu Jesus Christ vandhadhum mathiri, en vaalkaila Anu akka vandhadhum appadi dhaan.</p>
+            <p class="certificate-body">En life oda biggest turning point neenga dhaan, akka. "Yaar unna control pannuva? Yaar kitte adanguva?" nu ketta, amma kitta illa appa kitta illa… naan akka kitte dhaan adanguven.</p>
+            <p class="certificate-body">Enakku ungala romba pudikkum… romba nesikkiren… solla mudiyadha alavukku love panren.</p>
         </div>
+        <div class="certificate-signature">
+            <span>Love you, my dear Kanmani.</span>
+            <span class="certificate-sign">❤️</span>
+        </div>
+        <p class="certificate-note">I call her Kanmani — Kan is her, Mani is me. 🤍</p>
     </div>
 </section>
 
@@ -1474,6 +1492,17 @@ function sendHug() {
     hugMsgTimer = setTimeout(() => msgEl.classList.remove('show'), 3200);
 }
 
+/* ---------- CERTIFICATE / LETTER TOGGLE ---------- */
+function toggleCertificate() {
+    const card = document.getElementById('certificateCard');
+    const btn = document.getElementById('certificateRevealBtn');
+    const isRevealed = card.classList.toggle('revealed');
+    btn.textContent = isRevealed ? 'Close 🤍' : 'Tap to See It 🏆';
+    if (isRevealed) {
+        setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
+    }
+}
+
 /* ---------- LIGHTBOX ---------- */
 function openLightbox(src, caption) {
     document.getElementById('lightboxImg').src = src;
@@ -1721,7 +1750,7 @@ fetch("https://api.counterapi.dev/v1/kanmani-private-world-v2/visits/up")
 /* ---------- SCROLL REVEAL ---------- */
 function setupScrollReveal() {
     document.querySelectorAll(
-        'section > h1, section > h2.section-sub, section > p, section > .letter-box, section > .video-wrapper, .quiz-box, .certificate-card'
+        'section > h1, section > h2.section-sub, section > p, section > .letter-box, section > .video-wrapper, .quiz-box'
     ).forEach(el => el.classList.add('reveal'));
 
     document.querySelectorAll('.memory-timeline > .memory-row').forEach((el, i) => {
