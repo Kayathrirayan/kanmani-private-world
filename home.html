@@ -451,6 +451,21 @@
         max-width: none;
     }
 
+    .envelope-close {
+        display: inline-block;
+        margin-top: 16px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        color: #9c7a1c;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    .envelope-close:hover {
+        opacity: 1;
+    }
+
     .envelope-flap {
         position: absolute;
         top: 0;
@@ -1177,6 +1192,7 @@
                 I love you more than words can hold,<br>
                 my dear Kanmani, now and always. 🤍
             </p>
+            <span class="envelope-close" onclick="closeEnvelope()">✕ close</span>
         </div>
         <div class="envelope-flap"></div>
         <div class="envelope-seal" id="envelopeSeal" onclick="breakSeal()">💌</div>
@@ -1632,6 +1648,13 @@ function breakSeal() {
     wrap.classList.add('open');
     const hint = document.getElementById('envelopeHint');
     hint.textContent = "opened, just for you";
+}
+
+function closeEnvelope() {
+    const wrap = document.getElementById('envelopeWrap');
+    wrap.classList.remove('open');
+    const hint = document.getElementById('envelopeHint');
+    hint.textContent = "break the seal to open it";
 }
 
 /* ---------- CERTIFICATE / LETTER TOGGLE ---------- */
