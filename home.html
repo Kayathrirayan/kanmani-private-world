@@ -1157,7 +1157,6 @@
         <a onclick="scrollToSection('home')">Home</a>
         <a onclick="scrollToSection('story')">Story</a>
         <a onclick="scrollToSection('memories')">Memories</a>
-        <a onclick="scrollToSection('hug')">Hug</a>
         <a onclick="scrollToSection('envelope')">Letter</a>
         <a onclick="scrollToSection('gallery')">Gallery</a>
         <a onclick="scrollToSection('video')">Video</a>
@@ -1165,6 +1164,7 @@
         <a onclick="scrollToSection('yourturn')">Your Turn</a>
         <a onclick="scrollToSection('final')">Surprise</a>
         <a onclick="scrollToSection('certificate')">Award</a>
+        <a onclick="scrollToSection('hug')">Hug</a>
     </div>
     <button id="themeToggle">🌙 <span class="label">Night Mode</span></button>
     <button id="musicToggle" title="Play music">🔈</button>
@@ -1195,19 +1195,6 @@
 </section>
 
 <!-- HUG BUTTON -->
-<section id="hug" class="art-bg" style="background-image: url('ghibli/5.png');">
-    <h1>Need A Hug? 🤗</h1>
-    <h2 class="section-sub">tap it, as many times as you want</h2>
-    <div class="hug-button-wrap">
-        <button class="hug-button" id="hugButton" onclick="sendHug()">🤗</button>
-    </div>
-    <div class="hug-message" id="hugMessage"></div>
-    <div class="hug-progress-wrap">
-        <div class="hug-progress-bar" id="hugProgressBar"></div>
-    </div>
-    <p class="hug-progress-label" id="hugProgressLabel">0 / 10 hugs</p>
-</section>
-
 <!-- SEALED ENVELOPE -->
 <section id="envelope" class="art-bg" style="background-image: url('ghibli/11.png');">
     <h1>A Little Letter 💌</h1>
@@ -1339,6 +1326,37 @@
         <div class="certificate-signature">
             <span>Love you, my dear Kanmani.</span>
             <span class="certificate-sign">❤️</span>
+        </div>
+    </div>
+</section>
+
+<!-- HUG BUTTON -->
+<section id="hug" class="art-bg" style="background-image: url('ghibli/5.png');">
+    <h1>Need A Hug? 🤗</h1>
+    <h2 class="section-sub">tap it, as many times as you want</h2>
+    <div class="hug-button-wrap">
+        <button class="hug-button" id="hugButton" onclick="sendHug()">🤗</button>
+    </div>
+    <div class="hug-message" id="hugMessage"></div>
+    <div class="hug-progress-wrap">
+        <div class="hug-progress-bar" id="hugProgressBar"></div>
+    </div>
+    <p class="hug-progress-label" id="hugProgressLabel">0 / 10 hugs</p>
+
+    <div class="quiz-box" id="hugThoughtPrompt" style="display:none;">
+        <h3>You filled it with love 🎉 Got something on your mind?</h3>
+        <textarea id="hugThoughtInput" rows="4" placeholder="Anything you want to say... or leave it blank and skip"></textarea>
+        <br>
+        <button class="cta" onclick="saveHugThought()">Save</button>
+        <button class="cta cta-secondary" onclick="skipHugThought()">Skip For Now</button>
+    </div>
+
+    <div class="quiz-box" id="hugThoughtSaved" style="display:none;">
+        <h3>What You Shared 💌</h3>
+        <p class="saved-text" id="hugThoughtText"></p>
+        <div class="saved-actions">
+            <button class="cta" onclick="editHugThought()">✏️ Edit</button>
+            <button class="cta cta-secondary" onclick="deleteHugThought()">🗑️ Delete</button>
         </div>
     </div>
 </section>
@@ -1688,59 +1706,60 @@ function sendHug() {
         localStorage.setItem('hugCount', hugCount);
         setTimeout(() => {
             updateHugProgress();
-            showHugUnlock();
+            if (!localStorage.getItem('hugThought')) {
+                const prompt = document.getElementById('hugThoughtPrompt');
+                prompt.style.display = 'block';
+                prompt.classList.add('reveal', 'in-view');
+                prompt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }, 600);
     }
 }
 
-function showHugUnlock() {
-    const overlay = document.createElement('div');
-    overlay.id = 'hugUnlockOverlay';
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.background = 'rgba(0,0,0,0.75)';
-    overlay.style.display = 'flex';
-    overlay.style.justifyContent = 'center';
-    overlay.style.alignItems = 'center';
-    overlay.style.zIndex = '2600';
-    overlay.style.padding = '20px';
-
-    overlay.innerHTML = `
-        <div style="max-width:420px;width:100%;background:#fdfaf0;border-radius:20px;padding:32px 26px;text-align:center;box-shadow:0 25px 55px rgba(0,0,0,0.5);">
-            <div style="font-size:34px;margin-bottom:8px;">🎉</div>
-            <h3 style="font-family:'Cormorant Garamond', serif;color:#800020;margin:0 0 8px 0;font-size:24px;">You Filled It With Love</h3>
-            <p style="color:#666;font-size:14px;margin:0 0 18px 0;max-width:none;">Got something on your mind? Tell me, just between us.</p>
-            <textarea id="hugThoughtInput" rows="4" placeholder="Anything you want to say..." style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(201,162,39,0.4);font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;box-sizing:border-box;"></textarea>
-            <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
-                <button class="cta" onclick="submitHugThought()">Send 💌</button>
-                <button class="cta cta-secondary" onclick="closeHugUnlock()">Maybe Later</button>
-            </div>
-            <p id="hugThoughtConfirm" style="display:none;margin-top:14px;color:#9c7a1c;font-style:italic;font-size:13px;max-width:none;">Thank you for sharing 🤍</p>
-        </div>
-    `;
-    document.body.appendChild(overlay);
-}
-
-function closeHugUnlock() {
-    const overlay = document.getElementById('hugUnlockOverlay');
-    if (overlay) overlay.remove();
-}
-
-function submitHugThought() {
+function saveHugThought() {
     const input = document.getElementById('hugThoughtInput');
     const text = input.value.trim();
-    if (!text) { closeHugUnlock(); return; }
-    const existing = JSON.parse(localStorage.getItem('hugThoughts') || '[]');
-    existing.push({ text, savedAt: new Date().toISOString() });
-    localStorage.setItem('hugThoughts', JSON.stringify(existing));
-    document.getElementById('hugThoughtConfirm').style.display = 'block';
-    setTimeout(closeHugUnlock, 1400);
+    if (!text) { skipHugThought(); return; }
+    localStorage.setItem('hugThought', JSON.stringify({ text, savedAt: new Date().toISOString() }));
+    document.getElementById('hugThoughtPrompt').style.display = 'none';
+    renderSavedHugThought();
+}
+
+function skipHugThought() {
+    document.getElementById('hugThoughtPrompt').style.display = 'none';
+    document.getElementById('hugThoughtInput').value = '';
+}
+
+function renderSavedHugThought() {
+    const saved = localStorage.getItem('hugThought');
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    document.getElementById('hugThoughtText').textContent = data.text;
+    const savedEl = document.getElementById('hugThoughtSaved');
+    savedEl.style.display = 'block';
+    savedEl.classList.add('reveal', 'in-view');
+    document.getElementById('hugThoughtPrompt').style.display = 'none';
+}
+
+function editHugThought() {
+    const saved = JSON.parse(localStorage.getItem('hugThought') || '{}');
+    document.getElementById('hugThoughtInput').value = saved.text || '';
+    document.getElementById('hugThoughtSaved').style.display = 'none';
+    const prompt = document.getElementById('hugThoughtPrompt');
+    prompt.style.display = 'block';
+    prompt.classList.add('reveal', 'in-view');
+}
+
+function deleteHugThought() {
+    if (!confirm("Delete what you shared? This can't be undone.")) return;
+    localStorage.removeItem('hugThought');
+    document.getElementById('hugThoughtSaved').style.display = 'none';
+    document.getElementById('hugThoughtInput').value = '';
 }
 
 updateHugProgress();
+const existingHugThought = localStorage.getItem('hugThought');
+if (existingHugThought) renderSavedHugThought();
 
 /* ---------- SEALED ENVELOPE ---------- */
 function breakSeal() {
@@ -1832,7 +1851,9 @@ function checkGift() {
 function finishGiftQuestion() {
     document.getElementById('giftAnswer').disabled = true;
     document.querySelector('#q1 button').disabled = true;
-    document.getElementById('reflectionBlock').style.display = 'block';
+    const block = document.getElementById('reflectionBlock');
+    block.style.display = 'block';
+    block.classList.add('reveal', 'in-view');
     setTimeout(() => scrollToSection('yourturn'), 300);
 }
 
@@ -1871,7 +1892,9 @@ function renderSavedAnswers(data) {
         </div>`;
     }).join('');
     document.getElementById('reflectionBlock').style.display = 'none';
-    document.getElementById('savedAnswersView').style.display = 'block';
+    const savedView = document.getElementById('savedAnswersView');
+    savedView.style.display = 'block';
+    savedView.classList.add('reveal', 'in-view');
 }
 
 function editAnswers() {
@@ -1880,7 +1903,9 @@ function editAnswers() {
         document.getElementById(key).value = saved[key] || '';
     });
     document.getElementById('savedAnswersView').style.display = 'none';
-    document.getElementById('reflectionBlock').style.display = 'block';
+    const block = document.getElementById('reflectionBlock');
+    block.style.display = 'block';
+    block.classList.add('reveal', 'in-view');
 }
 
 function deleteAnswers() {
@@ -1890,7 +1915,9 @@ function deleteAnswers() {
         document.getElementById(key).value = '';
     });
     document.getElementById('savedAnswersView').style.display = 'none';
-    document.getElementById('reflectionBlock').style.display = 'block';
+    const block = document.getElementById('reflectionBlock');
+    block.style.display = 'block';
+    block.classList.add('reveal', 'in-view');
 }
 
 const existingAnswers = localStorage.getItem('anu_answers');
