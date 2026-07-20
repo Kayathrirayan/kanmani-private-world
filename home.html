@@ -365,6 +365,33 @@
         transform: translateY(0);
     }
 
+    .hug-progress-wrap {
+        width: 220px;
+        max-width: 80vw;
+        height: 10px;
+        margin: 26px auto 0 auto;
+        background: rgba(255,255,255,0.25);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .hug-progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        border-radius: 10px;
+        transition: width 0.5s ease;
+    }
+
+    .hug-progress-label {
+        margin-top: 8px;
+        font-size: 12px;
+        color: #fff;
+        opacity: 0.85;
+        letter-spacing: 0.5px;
+    }
+
     .hug-heart {
         position: fixed;
         z-index: 3500;
@@ -1175,6 +1202,10 @@
         <button class="hug-button" id="hugButton" onclick="sendHug()">🤗</button>
     </div>
     <div class="hug-message" id="hugMessage"></div>
+    <div class="hug-progress-wrap">
+        <div class="hug-progress-bar" id="hugProgressBar"></div>
+    </div>
+    <p class="hug-progress-label" id="hugProgressLabel">0 / 10 hugs</p>
 </section>
 
 <!-- SEALED ENVELOPE -->
@@ -1313,7 +1344,7 @@
 </section>
 
 <footer>
-    Made with love by your forever little sister 🤍
+    Made with love by your forever unga thangai 🤍
 </footer>
 
 <canvas id="confettiCanvas" style="display:none;"></canvas>
@@ -1609,6 +1640,14 @@ const hugMessages = [
     "One more, just because 💗"
 ];
 let hugMsgTimer = null;
+const HUG_GOAL = 10;
+let hugCount = parseInt(localStorage.getItem('hugCount') || '0', 10);
+
+function updateHugProgress() {
+    const pct = Math.min((hugCount / HUG_GOAL) * 100, 100);
+    document.getElementById('hugProgressBar').style.width = pct + '%';
+    document.getElementById('hugProgressLabel').textContent = hugCount + ' / ' + HUG_GOAL + ' hugs';
+}
 
 function sendHug() {
     const btn = document.getElementById('hugButton');
@@ -1639,7 +1678,69 @@ function sendHug() {
     msgEl.classList.add('show');
     clearTimeout(hugMsgTimer);
     hugMsgTimer = setTimeout(() => msgEl.classList.remove('show'), 3200);
+
+    hugCount++;
+    localStorage.setItem('hugCount', hugCount);
+    updateHugProgress();
+
+    if (hugCount >= HUG_GOAL) {
+        hugCount = 0;
+        localStorage.setItem('hugCount', hugCount);
+        setTimeout(() => {
+            updateHugProgress();
+            showHugUnlock();
+        }, 600);
+    }
 }
+
+function showHugUnlock() {
+    const overlay = document.createElement('div');
+    overlay.id = 'hugUnlockOverlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.background = 'rgba(0,0,0,0.75)';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '2600';
+    overlay.style.padding = '20px';
+
+    overlay.innerHTML = `
+        <div style="max-width:420px;width:100%;background:#fdfaf0;border-radius:20px;padding:32px 26px;text-align:center;box-shadow:0 25px 55px rgba(0,0,0,0.5);">
+            <div style="font-size:34px;margin-bottom:8px;">🎉</div>
+            <h3 style="font-family:'Cormorant Garamond', serif;color:#800020;margin:0 0 8px 0;font-size:24px;">You Filled It With Love</h3>
+            <p style="color:#666;font-size:14px;margin:0 0 18px 0;max-width:none;">Got something on your mind? Tell me, just between us.</p>
+            <textarea id="hugThoughtInput" rows="4" placeholder="Anything you want to say..." style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(201,162,39,0.4);font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;box-sizing:border-box;"></textarea>
+            <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+                <button class="cta" onclick="submitHugThought()">Send 💌</button>
+                <button class="cta cta-secondary" onclick="closeHugUnlock()">Maybe Later</button>
+            </div>
+            <p id="hugThoughtConfirm" style="display:none;margin-top:14px;color:#9c7a1c;font-style:italic;font-size:13px;max-width:none;">Thank you for sharing 🤍</p>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+function closeHugUnlock() {
+    const overlay = document.getElementById('hugUnlockOverlay');
+    if (overlay) overlay.remove();
+}
+
+function submitHugThought() {
+    const input = document.getElementById('hugThoughtInput');
+    const text = input.value.trim();
+    if (!text) { closeHugUnlock(); return; }
+    const existing = JSON.parse(localStorage.getItem('hugThoughts') || '[]');
+    existing.push({ text, savedAt: new Date().toISOString() });
+    localStorage.setItem('hugThoughts', JSON.stringify(existing));
+    document.getElementById('hugThoughtConfirm').style.display = 'block';
+    setTimeout(closeHugUnlock, 1400);
+}
+
+updateHugProgress();
 
 /* ---------- SEALED ENVELOPE ---------- */
 function breakSeal() {
