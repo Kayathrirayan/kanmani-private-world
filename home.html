@@ -7,7 +7,7 @@
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Playfair+Display:ital,wght@1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
     :root[data-theme="pink"] {
@@ -46,6 +46,7 @@
         scroll-behavior: smooth;
         overflow-x: hidden;
         transition: background 0.6s ease, color 0.6s ease;
+        touch-action: manipulation;
     }
 
     /* NAVIGATION */
@@ -80,7 +81,8 @@
 
     #themeToggle {
         order: 2;
-        margin-left: 10px;
+        margin-left: auto;
+        flex: 0 0 auto;
         border: 1px solid var(--card-border);
         background: rgba(0,0,0,0.04);
         color: var(--primary);
@@ -93,6 +95,7 @@
 
     #musicToggle {
         order: 3;
+        flex: 0 0 auto;
         border: 1px solid var(--card-border);
         background: rgba(0,0,0,0.04);
         color: var(--primary);
@@ -107,10 +110,10 @@
     .nav-links {
         display: flex;
         flex-wrap: nowrap;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 20px;
         order: 1;
-        flex: 1;
+        flex: 0 1 auto;
         min-width: 0;
         overflow-x: auto;
         scrollbar-width: none;
@@ -365,6 +368,33 @@
         transform: translateY(0);
     }
 
+    .hug-progress-wrap {
+        width: 220px;
+        max-width: 80vw;
+        height: 10px;
+        margin: 26px auto 0 auto;
+        background: rgba(255,255,255,0.25);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .hug-progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        border-radius: 10px;
+        transition: width 0.5s ease;
+    }
+
+    .hug-progress-label {
+        margin-top: 8px;
+        font-size: 12px;
+        color: #fff;
+        opacity: 0.85;
+        letter-spacing: 0.5px;
+    }
+
     .hug-heart {
         position: fixed;
         z-index: 3500;
@@ -380,6 +410,241 @@
 
     @media (prefers-reduced-motion: reduce) {
         .hug-button-wrap::before { animation: none; opacity: 0.2; }
+    }
+
+    /* SEALED ENVELOPE */
+    .envelope-wrap {
+        position: relative;
+        width: 300px;
+        max-width: 90vw;
+        height: 200px;
+        margin: 30px auto 0 auto;
+        perspective: 900px;
+    }
+
+    .envelope-front {
+        position: absolute;
+        inset: 0;
+        background: #fdfaf0;
+        border-radius: 6px;
+        box-shadow: 0 25px 55px rgba(0,0,0,0.5);
+        z-index: 2;
+    }
+
+    .envelope-front::before,
+    .envelope-front::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+    }
+
+    .envelope-front::before {
+        left: 0;
+        border-width: 0 0 100px 150px;
+        border-color: transparent transparent rgba(0,0,0,0.05) transparent;
+    }
+
+    .envelope-front::after {
+        right: 0;
+        border-width: 0 150px 100px 0;
+        border-color: transparent transparent rgba(0,0,0,0.05) transparent;
+    }
+
+    .envelope-letter {
+        position: absolute;
+        left: 50%;
+        top: 14px;
+        width: 84%;
+        transform: translate(-50%, 10px);
+        background: #fdfaf0;
+        border: 1px solid rgba(201,162,39,0.4);
+        border-radius: 8px;
+        padding: 22px 20px;
+        text-align: center;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.35);
+        opacity: 0;
+        z-index: 1;
+        transition: transform 1s ease 0.4s, opacity 1s ease 0.4s, z-index 0s 0.4s;
+    }
+
+    .envelope-letter p {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-weight: 500;
+        color: #4a3a20;
+        font-size: 15.5px;
+        line-height: 1.9;
+        margin: 0;
+        max-width: none;
+    }
+
+    .envelope-close {
+        display: inline-block;
+        margin-top: 16px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        color: #9c7a1c;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    .envelope-close:hover {
+        opacity: 1;
+    }
+
+    .envelope-flap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(160deg, #fdfaf0, #f0e6c8);
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        transform-origin: top center;
+        z-index: 3;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        transition: transform 0.9s ease;
+        transform-style: preserve-3d;
+    }
+
+    .envelope-seal {
+        position: absolute;
+        top: 78px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 32% 30%, #a8325a, #6b0018 75%);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.4), inset 0 -3px 6px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        cursor: pointer;
+        z-index: 4;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+        animation: seal-pulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes seal-pulse {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50% { transform: translate(-50%, -50%) scale(1.08); }
+    }
+
+    .envelope-wrap.open .envelope-flap {
+        transform: rotateX(-160deg);
+        animation: none;
+    }
+
+    .envelope-wrap.open .envelope-seal {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.4) rotate(25deg);
+        animation: none;
+        pointer-events: none;
+    }
+
+    .envelope-wrap.open .envelope-letter {
+        transform: translate(-50%, -78px);
+        opacity: 1;
+        z-index: 5;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .envelope-seal { animation: none; }
+    }
+
+    /* CERTIFICATE / LETTER */
+    #certificateRevealBtn {
+        margin-bottom: 10px;
+    }
+
+    .certificate-card {
+        max-width: 640px;
+        width: 100%;
+        background: #fdfaf0;
+        border: 3px double #c9a227;
+        border-radius: 8px;
+        padding: 0 40px;
+        box-shadow: 0 25px 55px rgba(0,0,0,0.5);
+        text-align: center;
+        position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+        max-height: 0;
+        overflow: hidden;
+        pointer-events: none;
+        transition: opacity 0.7s ease, transform 0.7s ease, max-height 1s ease, padding 0.7s ease;
+    }
+
+    .certificate-card.revealed {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 3200px;
+        padding: 45px 40px;
+        pointer-events: auto;
+    }
+
+    .certificate-seal {
+        font-size: 40px;
+        margin-bottom: 6px;
+    }
+
+    .certificate-kicker {
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        color: #9c7a1c;
+        font-size: 15px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin: 0 0 10px 0;
+    }
+
+    .certificate-name {
+        font-family: 'Cormorant Garamond', serif;
+        color: #800020;
+        font-size: 34px;
+        margin: 0 0 18px 0;
+    }
+
+    .certificate-letter {
+        text-align: center;
+    }
+
+    .certificate-body {
+        color: #4a3a20;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 1.9;
+        letter-spacing: 0.2px;
+        margin: 0 0 18px 0;
+        max-width: none;
+    }
+
+    .certificate-signature {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        text-align: center;
+    }
+
+    .certificate-signature span:first-child {
+        font-size: 13px;
+        color: #888;
+    }
+
+    .certificate-sign {
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-size: 20px;
+        color: #800020;
     }
 
     /* GALLERY / POLAROID WITH TAPED REVEAL */
@@ -549,11 +814,59 @@
         opacity: 0.9;
     }
 
+    /* ART BACKGROUND — Ghibli illustrations behind select sections */
+    .art-bg {
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        isolation: isolate;
+    }
+
+    .art-bg::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(13,10,20,0.72), rgba(13,10,20,0.85));
+        z-index: -1;
+    }
+
+    .art-bg h1, .art-bg .section-sub {
+        color: #fff;
+    }
+
+    .art-bg .section-sub {
+        color: #f4d9a0;
+    }
+
+    .art-bg .hug-message {
+        color: #fff;
+    }
+
+    /* Video section: darken the center where the player sits, let the art
+       breathe more at the edges instead of a flat overlay */
+    #video.art-bg::before {
+        background: radial-gradient(ellipse 65% 55% at center, rgba(13,10,20,0.94) 0%, rgba(13,10,20,0.75) 60%, rgba(13,10,20,0.88) 100%);
+    }
+
+    .art-bg > p,
+    .art-bg .gallery-hint,
+    .art-bg #countdownSub {
+        color: #fff;
+    }
+
     /* VIDEO SECTION */
     .video-wrapper {
         display: flex;
         justify-content: center;
         margin-top: 40px;
+    }
+
+    .art-bg .video-wrapper {
+        padding: 22px;
+        background: rgba(10,8,15,0.55);
+        border-radius: 28px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 20px 45px rgba(0,0,0,0.45);
     }
 
     .video-wrapper video {
@@ -847,19 +1160,21 @@
         <a onclick="scrollToSection('home')">Home</a>
         <a onclick="scrollToSection('story')">Story</a>
         <a onclick="scrollToSection('memories')">Memories</a>
-        <a onclick="scrollToSection('hug')">Hug</a>
+        <a onclick="scrollToSection('envelope')">Letter</a>
         <a onclick="scrollToSection('gallery')">Gallery</a>
         <a onclick="scrollToSection('video')">Video</a>
         <a onclick="scrollToSection('countdown')">Countdown</a>
         <a onclick="scrollToSection('yourturn')">Your Turn</a>
         <a onclick="scrollToSection('final')">Surprise</a>
+        <a onclick="scrollToSection('certificate')">Award</a>
+        <a onclick="scrollToSection('hug')">Hug</a>
     </div>
     <button id="themeToggle">🌙 <span class="label">Night Mode</span></button>
     <button id="musicToggle" title="Play music">🔈</button>
 </nav>
 
 <!-- HOME -->
-<section id="home">
+<section id="home" class="art-bg" style="background-image: url('ghibli/2.png');">
     <h1>Welcome, Anu akka 🤍</h1>
     <p>
         This little space was made just for you. Not for the world. Not for anyone else.
@@ -869,31 +1184,44 @@
 </section>
 
 <!-- STORY (typewriter letter) -->
-<section id="story">
+<section id="story" class="art-bg" style="background-image: url('ghibli/7.png');">
     <h1>Happy Birthday</h1>
     <h2 class="section-sub">a letter, written slowly</h2>
     <div class="letter-box" id="letterBox"></div>
 </section>
 
 <!-- MEMORIES / ZIGZAG TIMELINE -->
-<section id="memories">
+<section id="memories" class="art-bg" style="background-image: url('ghibli/1.png');">
     <h1>Our Story, One Memory at a Time</h1>
     <h2 class="section-sub">tap a box to open it</h2>
     <div class="memory-timeline" id="memoryTimeline"></div>
 </section>
 
 <!-- HUG BUTTON -->
-<section id="hug">
-    <h1>Need A Hug? 🤗</h1>
-    <h2 class="section-sub">tap it, as many times as you want</h2>
-    <div class="hug-button-wrap">
-        <button class="hug-button" id="hugButton" onclick="sendHug()">🤗</button>
+<!-- SEALED ENVELOPE -->
+<section id="envelope" class="art-bg" style="background-image: url('ghibli/11.png');">
+    <h1>A Little Letter 💌</h1>
+    <h2 class="section-sub" id="envelopeHint">break the seal to open it</h2>
+    <div class="envelope-wrap" id="envelopeWrap">
+        <div class="envelope-front"></div>
+        <div class="envelope-letter">
+            <p class="envelope-poem">
+                To the one who has loved me endlessly,<br>
+                through every high and every low.<br>
+                You are the calm inside my chaos,<br>
+                the safest place I will ever know.<br>
+                I love you more than words can hold,<br>
+                my dear Kanmani, now and always. 🤍
+            </p>
+            <span class="envelope-close" onclick="closeEnvelope()">✕ close</span>
+        </div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal" id="envelopeSeal" onclick="breakSeal()">💌</div>
     </div>
-    <div class="hug-message" id="hugMessage"></div>
 </section>
 
 <!-- GALLERY / SCRAPBOOK -->
-<section id="gallery">
+<section id="gallery" class="art-bg" style="background-image: url('ghibli/3.png');">
     <h1>Little Pieces of Us 📷</h1>
     <h2 class="section-sub">a few frames from us</h2>
     <p class="gallery-hint">read the moment, then tap to reveal the photo · double-tap to view it full size</p>
@@ -903,12 +1231,12 @@
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
     <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
-    <img id="lightboxImg" src="" alt="">
+    <img id="lightboxImg" alt="">
     <div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
 
 <!-- VIDEO -->
-<section id="video">
+<section id="video" class="art-bg" style="background-image: url('ghibli/10.png'); background-position: top center;">
     <h1>Birthday Memory 🎬</h1>
     <div class="video-wrapper">
         <video controls>
@@ -919,7 +1247,7 @@
 </section>
 
 <!-- COUNTDOWN -->
-<section id="countdown">
+<section id="countdown" class="art-bg" style="background-image: url('ghibli/8.png');">
     <h1 id="countdownTitle">Counting Down to Your Day 🎂</h1>
     <p id="countdownSub">Every year on February 20th, the world gets a little brighter.</p>
     <div class="countdown-grid" id="countdownGrid">
@@ -931,7 +1259,7 @@
 </section>
 
 <!-- YOUR TURN: quiz + reflections + guestbook -->
-<section id="yourturn">
+<section id="yourturn" class="art-bg" style="background-image: url('ghibli/9.png');">
     <h1>Your Turn 💌</h1>
     <h2 class="section-sub">a little game, then a little space just for you</h2>
 
@@ -957,7 +1285,7 @@
             <textarea id="q4" rows="2" placeholder="Your answer..."></textarea>
         </div>
         <div class="quiz-box">
-            <h3>Out of all the handwritten letters I've given you, which one was your favourite — and why?</h3>
+            <h3>Out of all the handwritten letters I've given you, which one was your favourite, and why?</h3>
             <textarea id="q5" rows="2" placeholder="Your answer..."></textarea>
         </div>
         <div class="quiz-box">
@@ -970,7 +1298,7 @@
 
     <div id="savedAnswersView" class="quiz-box" style="display:none;">
         <h3>Your Saved Answers 🤍</h3>
-        <p class="saved-note">Saved right here on this device — come back anytime to read, edit, or delete them.</p>
+        <p class="saved-note">Saved right here on this device, come back anytime to read, edit, or delete them.</p>
         <div id="savedAnswersContent"></div>
         <div class="saved-actions">
             <button class="cta" onclick="editAnswers()">✏️ Edit</button>
@@ -980,13 +1308,64 @@
 </section>
 
 <!-- FINAL -->
-<section id="final">
+<section id="final" class="art-bg" style="background-image: url('ghibli/4.png');">
     <h1>One More Thing 🤍</h1>
     <button class="cta" onclick="showSurprise()">Click Me</button>
 </section>
 
+<!-- CERTIFICATE / LETTER -->
+<section id="certificate" class="art-bg" style="background-image: url('ghibli/6.png');">
+    <h1>An Official Award 🏆</h1>
+    <h2 class="section-sub">totally official, totally biased</h2>
+    <button class="cta" id="certificateRevealBtn" onclick="toggleCertificate()">Tap to See It 🏆</button>
+    <div class="certificate-card" id="certificateCard">
+        <div class="certificate-seal">🤍</div>
+        <p class="certificate-kicker">Not a Certificate, Just the Truth</p>
+        <h3 class="certificate-name">Anu Akka</h3>
+        <div class="certificate-letter">
+            <p class="certificate-body">This certificate is proudly presented to my wonderful sister in recognition of her endless love, unwavering support, and kind heart.</p>
+            <p class="certificate-body">Your strength, care, and encouragement make every day brighter, and I am truly grateful to have you in my life.</p>
+        </div>
+        <div class="certificate-signature">
+            <span>Love you, my dear Kanmani.</span>
+            <span class="certificate-sign">❤️</span>
+        </div>
+    </div>
+</section>
+
+<!-- HUG BUTTON -->
+<section id="hug" class="art-bg" style="background-image: url('ghibli/5.png');">
+    <h1>Need A Hug? 🤗</h1>
+    <h2 class="section-sub">tap it, as many times as you want</h2>
+    <div class="hug-button-wrap">
+        <button class="hug-button" id="hugButton" onclick="sendHug()">🤗</button>
+    </div>
+    <div class="hug-message" id="hugMessage"></div>
+    <div class="hug-progress-wrap">
+        <div class="hug-progress-bar" id="hugProgressBar"></div>
+    </div>
+    <p class="hug-progress-label" id="hugProgressLabel">0 / 10 hugs</p>
+
+    <div class="quiz-box" id="hugThoughtPrompt" style="display:none;">
+        <h3>You filled it with love 🎉 Got something on your mind?</h3>
+        <textarea id="hugThoughtInput" rows="4" placeholder="Anything you want to say... or leave it blank and skip"></textarea>
+        <br>
+        <button class="cta" onclick="saveHugThought()">Save</button>
+        <button class="cta cta-secondary" onclick="skipHugThought()">Skip For Now</button>
+    </div>
+
+    <div class="quiz-box" id="hugThoughtSaved" style="display:none;">
+        <h3>What You Shared 💌</h3>
+        <p class="saved-text" id="hugThoughtText"></p>
+        <div class="saved-actions">
+            <button class="cta" onclick="editHugThought()">✏️ Edit</button>
+            <button class="cta cta-secondary" onclick="deleteHugThought()">🗑️ Delete</button>
+        </div>
+    </div>
+</section>
+
 <footer>
-    Made with love by your forever little sister 🤍
+    Made with love by your forever thangai 🤍
 </footer>
 
 <canvas id="confettiCanvas" style="display:none;"></canvas>
@@ -1069,9 +1448,9 @@ musicBtn.addEventListener('click', () => {
 /* ---------- TYPEWRITER LETTER ---------- */
 const letterParagraphs = [
     "Happy Birthday, Anu akka.",
-    "Today is about you — your strength, your dreams, your journey. I truly hope this year brings you success in your career, confidence in every decision you make, and the kind of happiness that stays peacefully in your heart.",
+    "Today is about you, your strength, your dreams, your journey. I truly hope this year brings you success in your career, confidence in every decision you make, and the kind of happiness that stays peacefully in your heart.",
     "You work hard, you carry responsibilities quietly, and you love deeply without expecting anything back. You deserve growth, recognition, and everything beautiful that life can offer.",
-    "As your little sister, I feel proud to stand beside you. The confidence I have today, the love I understand today — it grew because you were there guiding me in your own silent way.",
+    "As your little sister, I feel proud to stand beside you. The confidence I have today, the love I understand today, it grew because you were there guiding me in your own silent way.",
     "You showed me how beautiful I am when I couldn’t see it myself. Because of you, I discovered how beautiful my own heart can be.",
     "Happy Birthday my dear Kanmani. I’m always yours."
 ];
@@ -1282,6 +1661,14 @@ const hugMessages = [
     "One more, just because 💗"
 ];
 let hugMsgTimer = null;
+const HUG_GOAL = 10;
+let hugCount = parseInt(localStorage.getItem('hugCount') || '0', 10);
+
+function updateHugProgress() {
+    const pct = Math.min((hugCount / HUG_GOAL) * 100, 100);
+    document.getElementById('hugProgressBar').style.width = pct + '%';
+    document.getElementById('hugProgressLabel').textContent = hugCount + ' / ' + HUG_GOAL + ' hugs';
+}
 
 function sendHug() {
     const btn = document.getElementById('hugButton');
@@ -1312,6 +1699,96 @@ function sendHug() {
     msgEl.classList.add('show');
     clearTimeout(hugMsgTimer);
     hugMsgTimer = setTimeout(() => msgEl.classList.remove('show'), 3200);
+
+    hugCount++;
+    localStorage.setItem('hugCount', hugCount);
+    updateHugProgress();
+
+    if (hugCount >= HUG_GOAL) {
+        hugCount = 0;
+        localStorage.setItem('hugCount', hugCount);
+        setTimeout(() => {
+            updateHugProgress();
+            if (!localStorage.getItem('hugThought')) {
+                const prompt = document.getElementById('hugThoughtPrompt');
+                prompt.style.display = 'block';
+                prompt.classList.add('reveal', 'in-view');
+                prompt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 600);
+    }
+}
+
+function saveHugThought() {
+    const input = document.getElementById('hugThoughtInput');
+    const text = input.value.trim();
+    if (!text) { skipHugThought(); return; }
+    localStorage.setItem('hugThought', JSON.stringify({ text, savedAt: new Date().toISOString() }));
+    document.getElementById('hugThoughtPrompt').style.display = 'none';
+    renderSavedHugThought();
+}
+
+function skipHugThought() {
+    document.getElementById('hugThoughtPrompt').style.display = 'none';
+    document.getElementById('hugThoughtInput').value = '';
+}
+
+function renderSavedHugThought() {
+    const saved = localStorage.getItem('hugThought');
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    document.getElementById('hugThoughtText').textContent = data.text;
+    const savedEl = document.getElementById('hugThoughtSaved');
+    savedEl.style.display = 'block';
+    savedEl.classList.add('reveal', 'in-view');
+    document.getElementById('hugThoughtPrompt').style.display = 'none';
+}
+
+function editHugThought() {
+    const saved = JSON.parse(localStorage.getItem('hugThought') || '{}');
+    document.getElementById('hugThoughtInput').value = saved.text || '';
+    document.getElementById('hugThoughtSaved').style.display = 'none';
+    const prompt = document.getElementById('hugThoughtPrompt');
+    prompt.style.display = 'block';
+    prompt.classList.add('reveal', 'in-view');
+}
+
+function deleteHugThought() {
+    if (!confirm("Delete what you shared? This can't be undone.")) return;
+    localStorage.removeItem('hugThought');
+    document.getElementById('hugThoughtSaved').style.display = 'none';
+    document.getElementById('hugThoughtInput').value = '';
+}
+
+updateHugProgress();
+const existingHugThought = localStorage.getItem('hugThought');
+if (existingHugThought) renderSavedHugThought();
+
+/* ---------- SEALED ENVELOPE ---------- */
+function breakSeal() {
+    const wrap = document.getElementById('envelopeWrap');
+    if (wrap.classList.contains('open')) return;
+    wrap.classList.add('open');
+    const hint = document.getElementById('envelopeHint');
+    hint.textContent = "opened, just for you";
+}
+
+function closeEnvelope() {
+    const wrap = document.getElementById('envelopeWrap');
+    wrap.classList.remove('open');
+    const hint = document.getElementById('envelopeHint');
+    hint.textContent = "break the seal to open it";
+}
+
+/* ---------- CERTIFICATE / LETTER TOGGLE ---------- */
+function toggleCertificate() {
+    const card = document.getElementById('certificateCard');
+    const btn = document.getElementById('certificateRevealBtn');
+    const isRevealed = card.classList.toggle('revealed');
+    btn.textContent = isRevealed ? 'Close 🤍' : 'Tap to See It 🏆';
+    if (isRevealed) {
+        setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
+    }
 }
 
 /* ---------- LIGHTBOX ---------- */
@@ -1361,11 +1838,11 @@ function checkGift() {
     giftAttempts++;
 
     if (val.includes('kiss') || val.includes('chocolate')) {
-        feedback.textContent = "Yes! Kisses chocolates — I still remember that moment. 🍫💋";
+        feedback.textContent = "Yes! Kisses chocolates, I still remember that moment. 🍫💋";
         feedback.className = 'quiz-feedback correct';
         finishGiftQuestion();
     } else if (giftAttempts >= 2) {
-        feedback.textContent = "It was Kisses chocolates 🍫 — the very first thing I ever gave you.";
+        feedback.textContent = "It was Kisses chocolates 🍫, the very first thing I ever gave you.";
         feedback.className = 'quiz-feedback reveal';
         finishGiftQuestion();
     } else {
@@ -1377,7 +1854,9 @@ function checkGift() {
 function finishGiftQuestion() {
     document.getElementById('giftAnswer').disabled = true;
     document.querySelector('#q1 button').disabled = true;
-    document.getElementById('reflectionBlock').style.display = 'block';
+    const block = document.getElementById('reflectionBlock');
+    block.style.display = 'block';
+    block.classList.add('reveal', 'in-view');
     setTimeout(() => scrollToSection('yourturn'), 300);
 }
 
@@ -1385,7 +1864,7 @@ const REFLECTION_FIELDS = [
     { key: 'q2', label: 'How much do I love you? 🤍' },
     { key: 'q3', label: 'What did you like most about me?' },
     { key: 'q4', label: 'What surprise did I give you that you liked the most?' },
-    { key: 'q5', label: "Out of all the handwritten letters I've given you, which one was your favourite — and why?" },
+    { key: 'q5', label: "Out of all the handwritten letters I've given you, which one was your favourite, and why?" },
     { key: 'extraMsg', label: 'Anything else you want to tell me? 💌' }
 ];
 
@@ -1416,7 +1895,9 @@ function renderSavedAnswers(data) {
         </div>`;
     }).join('');
     document.getElementById('reflectionBlock').style.display = 'none';
-    document.getElementById('savedAnswersView').style.display = 'block';
+    const savedView = document.getElementById('savedAnswersView');
+    savedView.style.display = 'block';
+    savedView.classList.add('reveal', 'in-view');
 }
 
 function editAnswers() {
@@ -1425,7 +1906,9 @@ function editAnswers() {
         document.getElementById(key).value = saved[key] || '';
     });
     document.getElementById('savedAnswersView').style.display = 'none';
-    document.getElementById('reflectionBlock').style.display = 'block';
+    const block = document.getElementById('reflectionBlock');
+    block.style.display = 'block';
+    block.classList.add('reveal', 'in-view');
 }
 
 function deleteAnswers() {
@@ -1435,7 +1918,9 @@ function deleteAnswers() {
         document.getElementById(key).value = '';
     });
     document.getElementById('savedAnswersView').style.display = 'none';
-    document.getElementById('reflectionBlock').style.display = 'block';
+    const block = document.getElementById('reflectionBlock');
+    block.style.display = 'block';
+    block.classList.add('reveal', 'in-view');
 }
 
 const existingAnswers = localStorage.getItem('anu_answers');
