@@ -814,18 +814,37 @@
         opacity: 0.9;
     }
 
-    /* ART BACKGROUND — Ghibli illustrations behind select sections */
+    /* ART BACKGROUND — Ghibli illustrations behind select sections.
+       The image + overlay live on pseudo-elements pinned to a fixed 100vh
+       band (not the section's own box), so they never rescale/"zoom" when
+       the section grows taller from expanding content (e.g. memory cards
+       opening). Anything below that band just shows the plain body
+       gradient, same as it would past the end of any hero image. */
     .art-bg {
         position: relative;
-        background-size: cover;
-        background-position: center;
         isolation: isolate;
     }
 
     .art-bg::before {
         content: '';
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100vh;
+        background-image: var(--art-img);
+        background-size: cover;
+        background-position: center;
+        z-index: -2;
+    }
+
+    .art-bg::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100vh;
         background: linear-gradient(to bottom, rgba(13,10,20,0.72), rgba(13,10,20,0.85));
         z-index: -1;
     }
@@ -842,9 +861,13 @@
         color: #fff;
     }
 
+    #video.art-bg::before {
+        background-position: top center;
+    }
+
     /* Video section: darken the center where the player sits, let the art
        breathe more at the edges instead of a flat overlay */
-    #video.art-bg::before {
+    #video.art-bg::after {
         background: radial-gradient(ellipse 65% 55% at center, rgba(13,10,20,0.94) 0%, rgba(13,10,20,0.75) 60%, rgba(13,10,20,0.88) 100%);
     }
 
@@ -1174,7 +1197,7 @@
 </nav>
 
 <!-- HOME -->
-<section id="home" class="art-bg" style="background-image: url('ghibli/2.png');">
+<section id="home" class="art-bg" style="--art-img: url('ghibli/2.png');">
     <h1>Welcome, Anu akka 🤍</h1>
     <p>
         This little space was made just for you. Not for the world. Not for anyone else.
@@ -1184,14 +1207,14 @@
 </section>
 
 <!-- STORY (typewriter letter) -->
-<section id="story" class="art-bg" style="background-image: url('ghibli/7.png');">
+<section id="story" class="art-bg" style="--art-img: url('ghibli/7.png');">
     <h1>Happy Birthday</h1>
     <h2 class="section-sub">a letter, written slowly</h2>
     <div class="letter-box" id="letterBox"></div>
 </section>
 
 <!-- MEMORIES / ZIGZAG TIMELINE -->
-<section id="memories" class="art-bg" style="background-image: url('ghibli/1.png');">
+<section id="memories" class="art-bg" style="--art-img: url('ghibli/1.png');">
     <h1>Our Story, One Memory at a Time</h1>
     <h2 class="section-sub">tap a box to open it</h2>
     <div class="memory-timeline" id="memoryTimeline"></div>
@@ -1199,7 +1222,7 @@
 
 <!-- HUG BUTTON -->
 <!-- SEALED ENVELOPE -->
-<section id="envelope" class="art-bg" style="background-image: url('ghibli/11.png');">
+<section id="envelope" class="art-bg" style="--art-img: url('ghibli/11.png');">
     <h1>A Little Letter 💌</h1>
     <h2 class="section-sub" id="envelopeHint">break the seal to open it</h2>
     <div class="envelope-wrap" id="envelopeWrap">
@@ -1221,7 +1244,7 @@
 </section>
 
 <!-- GALLERY / SCRAPBOOK -->
-<section id="gallery" class="art-bg" style="background-image: url('ghibli/3.png');">
+<section id="gallery" class="art-bg" style="--art-img: url('ghibli/3.png');">
     <h1>Little Pieces of Us 📷</h1>
     <h2 class="section-sub">a few frames from us</h2>
     <p class="gallery-hint">read the moment, then tap to reveal the photo · double-tap to view it full size</p>
@@ -1236,7 +1259,7 @@
 </div>
 
 <!-- VIDEO -->
-<section id="video" class="art-bg" style="background-image: url('ghibli/10.png'); background-position: top center;">
+<section id="video" class="art-bg" style="--art-img: url('ghibli/10.png');">
     <h1>Birthday Memory 🎬</h1>
     <div class="video-wrapper">
         <video controls>
@@ -1247,7 +1270,7 @@
 </section>
 
 <!-- COUNTDOWN -->
-<section id="countdown" class="art-bg" style="background-image: url('ghibli/8.png');">
+<section id="countdown" class="art-bg" style="--art-img: url('ghibli/8.png');">
     <h1 id="countdownTitle">Counting Down to Your Day 🎂</h1>
     <p id="countdownSub">Every year on February 20th, the world gets a little brighter.</p>
     <div class="countdown-grid" id="countdownGrid">
@@ -1259,7 +1282,7 @@
 </section>
 
 <!-- YOUR TURN: quiz + reflections + guestbook -->
-<section id="yourturn" class="art-bg" style="background-image: url('ghibli/9.png');">
+<section id="yourturn" class="art-bg" style="--art-img: url('ghibli/9.png');">
     <h1>Your Turn 💌</h1>
     <h2 class="section-sub">a little game, then a little space just for you</h2>
 
@@ -1308,13 +1331,13 @@
 </section>
 
 <!-- FINAL -->
-<section id="final" class="art-bg" style="background-image: url('ghibli/4.png');">
+<section id="final" class="art-bg" style="--art-img: url('ghibli/4.png');">
     <h1>One More Thing 🤍</h1>
     <button class="cta" onclick="showSurprise()">Click Me</button>
 </section>
 
 <!-- CERTIFICATE / LETTER -->
-<section id="certificate" class="art-bg" style="background-image: url('ghibli/6.png');">
+<section id="certificate" class="art-bg" style="--art-img: url('ghibli/6.png');">
     <h1>An Official Award 🏆</h1>
     <h2 class="section-sub">totally official, totally biased</h2>
     <button class="cta" id="certificateRevealBtn" onclick="toggleCertificate()">Tap to See It 🏆</button>
@@ -1334,7 +1357,7 @@
 </section>
 
 <!-- HUG BUTTON -->
-<section id="hug" class="art-bg" style="background-image: url('ghibli/5.png');">
+<section id="hug" class="art-bg" style="--art-img: url('ghibli/5.png');">
     <h1>Need A Hug? 🤗</h1>
     <h2 class="section-sub">tap it, as many times as you want</h2>
     <div class="hug-button-wrap">
