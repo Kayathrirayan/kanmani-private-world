@@ -815,13 +815,11 @@
     }
 
     /* ART BACKGROUND — Ghibli illustrations behind select sections.
-       The image sits on a ::before pinned to a fixed 100vh band (not the
-       section's own box), so it never rescales/"zooms" when the section
-       grows taller from expanding content (e.g. memory cards opening).
-       The dark overlay on ::after spans the section's FULL (dynamic)
-       height instead, fading from the normal text-contrast tone at the
-       top into a solid matching color — so anything below the image's
-       100vh band reads as a smooth continuation, not a seam. */
+       The image + overlay live on pseudo-elements pinned to a fixed 100vh
+       band (not the section's own box), so they never rescale/"zoom" when
+       the section grows taller from expanding content (e.g. memory cards
+       opening). Anything below that band just shows the plain body
+       gradient, same as it would past the end of any hero image. */
     .art-bg {
         position: relative;
         isolation: isolate;
@@ -843,14 +841,11 @@
     .art-bg::after {
         content: '';
         position: absolute;
-        inset: 0;
-        background: linear-gradient(
-            to bottom,
-            rgba(13,10,20,0.72) 0,
-            rgba(13,10,20,0.85) 100vh,
-            rgba(13,10,20,0.94) 100vh,
-            rgba(13,10,20,0.94) 100%
-        );
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100vh;
+        background: linear-gradient(to bottom, rgba(13,10,20,0.72), rgba(13,10,20,0.85));
         z-index: -1;
     }
 
