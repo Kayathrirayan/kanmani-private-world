@@ -1239,7 +1239,7 @@
 <section id="video" class="art-bg" style="background-image: url('ghibli/10.png'); background-position: top center;">
     <h1>Birthday Memory 🎬</h1>
     <div class="video-wrapper">
-        <video controls>
+        <video id="birthdayVideo" controls>
             <source src="birthdayvideo(1).mp4" type="video/mp4">
         </video>
     </div>
@@ -1444,6 +1444,32 @@ musicBtn.addEventListener('click', () => {
         musicBtn.textContent = '🔈';
     }
 });
+
+/* Auto-duck the music whenever the birthday video plays, and bring it
+   back whenever the video pauses or ends — every time, on every replay. */
+const birthdayVideo = document.getElementById('birthdayVideo');
+let musicPausedByVideo = false;
+
+birthdayVideo.addEventListener('play', () => {
+    if (musicPlaying) {
+        audio.pause();
+        musicPlaying = false;
+        musicBtn.textContent = '🔈';
+        musicPausedByVideo = true;
+    }
+});
+
+function resumeMusicAfterVideo() {
+    if (!musicPausedByVideo) return;
+    musicPausedByVideo = false;
+    audio.play().then(() => {
+        musicPlaying = true;
+        musicBtn.textContent = '🔊';
+    }).catch(() => {});
+}
+
+birthdayVideo.addEventListener('pause', resumeMusicAfterVideo);
+birthdayVideo.addEventListener('ended', resumeMusicAfterVideo);
 
 /* ---------- TYPEWRITER LETTER ---------- */
 const letterParagraphs = [
